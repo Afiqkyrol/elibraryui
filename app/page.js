@@ -12,9 +12,11 @@ export default function Home() {
   useEffect(() => {
     if (localStorage.getItem("auth-token")) {
       if (localStorage.getItem("role") == "PATRON") {
-        router.push("/patron");
-      } else {
-        router.push("/librarian");
+        router.push("/elibrary_ui/patron");
+      } else if (localStorage.getItem("role") == "LIBRARIAN") {
+        router.push("/elibrary_ui/librarian");
+      } else if (localStorage.getItem("role") == "ADMIN") {
+        router.push("/elibrary_ui/admin");
       }
     } else {
       setIsLoading(false);
@@ -30,7 +32,7 @@ export default function Home() {
       <h1 className="text-3xl mb-8">E-Library</h1>
       <div className="space-x-4">
         <Link
-          href="/login"
+          href="/elibrary_ui/login"
           className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
         >
           Login
