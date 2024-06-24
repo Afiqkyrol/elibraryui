@@ -7,7 +7,7 @@ export default function AdminLayout({ children }) {
 
   useEffect(() => {
     if (!localStorage.getItem("auth-token")) {
-      window.location.href = "/elibrary_ui/login";
+      window.location.href = "/elibrary_ui";
       return null;
     }
 

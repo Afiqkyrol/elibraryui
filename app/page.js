@@ -28,22 +28,6 @@ export default function Home() {
   }
 
   return (
-    <div className="flex flex-col items-center justify-center h-screen">
-      <h1 className="text-3xl mb-8">E-Library</h1>
-      <div className="space-x-4">
-        <Link
-          href="/elibrary_ui/login"
-          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-        >
-          Login
-        </Link>
-        {/* <Link
-          href="/register"
-          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-        >
-          Register
-        </Link> */}
-      </div>
-    </div>
+    <div className="flex flex-col items-center justify-center h-screen"></div>
   );
 }

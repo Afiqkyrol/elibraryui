@@ -40,7 +40,7 @@ export async function fetchHistoryList() {
 
 export async function fetchBookList() {
   const token = localStorage.getItem("auth-token");
-  const response = await axiosInstance.get("/patron/book-list", {
+  const response = await axiosInstance.get("/patron/book-list-details", {
     headers: {
       Authorization: "Bearer " + token,
     },

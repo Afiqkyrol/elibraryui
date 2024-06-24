@@ -42,3 +42,11 @@ export async function authReg(
     console.log(error.response);
   }
 }
+
+export async function authCheck(token) {
+  const formData = new FormData();
+  formData.append("mmdis_token", token.replace(/ /g, "+"));
+
+  const response = await axiosInstance.post("/public/check", formData);
+  return response.data;
+}

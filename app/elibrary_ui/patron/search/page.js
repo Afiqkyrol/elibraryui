@@ -9,6 +9,7 @@ import { fetchSearchBookResults } from "@/api/patron/postApi";
 
 export default function ShowSearchList() {
   const [bookList, setBookList] = useState([]);
+  const [completeBookList, setCompleteBookList] = useState([]);
   const [monoType, setMonoType] = useState("book");
   const [category, setCategory] = useState("title");
   const [title, setTitle] = useState();
@@ -23,8 +24,40 @@ export default function ShowSearchList() {
     setIsLoading(false);
   }, []);
 
+  useEffect(() => {
+    function assignData() {
+      for (let i = 0; i < bookList.length; i++) {
+        if (
+          bookList[i] &&
+          bookList[i].catalog &&
+          bookList[i].catalog.length > 0
+        ) {
+          for (let j = 0; j < bookList[i].catalog.length; j++) {
+            if (bookList[i].catalog[j].catreg_tag == 14) {
+              bookList[i].monograph.reg_publisher_id =
+                bookList[i].catalog[j].catreg_data;
+            }
+            if (bookList[i].catalog[j].catreg_tag == 11) {
+              bookList[i].monograph.reg_author_id =
+                bookList[i].catalog[j].catreg_data;
+            }
+            if (bookList[i].catalog[j].catreg_tag == 21) {
+              bookList[i].monograph.reg_type =
+                bookList[i].catalog[j].catreg_data;
+            }
+          }
+        }
+      }
+      setCompleteBookList(bookList);
+    }
+
+    assignData();
+  }, [bookList]);
+
   async function resetFilterHandler() {
     setIsLoading(true);
+    setMonoType("book");
+    setCategory("title");
     setBookList(await fetchBookList());
     setIsLoading(false);
   }
@@ -148,7 +181,7 @@ export default function ShowSearchList() {
             <br></br>
             <h1 className="text-3xl font-bold mb-4 text-center">Books List</h1>
 
-            <BookListTable data={bookList} role="patron" />
+            <BookListTable data={completeBookList} role="patron" />
           </center>
         </div>
       </div>
