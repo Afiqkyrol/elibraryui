@@ -42,23 +42,52 @@ export default function MonographListTable(props) {
             >
               Description
             </th>
+            <th
+              style={{ width: "60%" }}
+              className="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider"
+            >
+              Author
+            </th>
+            <th
+              style={{ width: "60%" }}
+              className="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider"
+            >
+              Publisher
+            </th>
+            <th
+              style={{ width: "60%" }}
+              className="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider"
+            >
+              Type
+            </th>
           </tr>
         </thead>
         <tbody className="bg-white divide-y divide-gray-200">
           {props.data.map((book, index) => (
             <tr key={index}>
-              <td className="px-6 py-4 whitespace-no-wrap">{book.reg_id}</td>
+              <td className="px-6 py-4 whitespace-no-wrap">
+                {book.monograph.reg_id}
+              </td>
               <td className="px-6 py-4 whitespace-no-wrap">
                 <Link
-                  href={`/elibrary_ui/librarian/monograph/${book.reg_id}`}
+                  href={`/elibrary_ui/librarian/monograph/${book.monograph.reg_id}`}
                   className="text-blue-600 hover:underline"
                   style={{ color: "blue" }}
                 >
-                  {book.reg_title}
+                  {book.monograph.reg_title}
                 </Link>
               </td>
               <td className="px-6 py-4 whitespace-no-wrap">
-                {book.reg_description}
+                {book.monograph.reg_description}
+              </td>
+              <td className="px-6 py-4 whitespace-no-wrap">
+                {book.monograph.reg_author_id}
+              </td>
+              <td className="px-6 py-4 whitespace-no-wrap">
+                {book.monograph.reg_publisher_id}
+              </td>
+              <td className="px-6 py-4 whitespace-no-wrap">
+                {book.monograph.reg_type}
               </td>
             </tr>
           ))}

@@ -2,7 +2,7 @@ import axiosInstance from "@/util/axiosInstance";
 
 export async function fetchBookList() {
   const token = localStorage.getItem("auth-token");
-  const response = await axiosInstance.get("/librarian/book-list", {
+  const response = await axiosInstance.get("/librarian/book-list-details", {
     headers: {
       Authorization: "Bearer " + token,
     },

@@ -60,18 +60,6 @@ export default function AdminLeftSideBar() {
         >
           Monograph Cataloging
         </Link>
-        <Link
-          href="/elibrary_ui/admin/user"
-          class="px-6 py-3 text-gray-300 hover:bg-gray-700"
-        >
-          User
-        </Link>
-        <Link
-          href="/elibrary_ui/admin/user-role"
-          class="px-6 py-3 text-gray-300 hover:bg-gray-700"
-        >
-          User Role
-        </Link>
       </nav>
     </div>
   );

@@ -9,6 +9,7 @@ import { fetchSearchBookResults } from "@/api/librarian/postApi";
 
 export default function ShowSearchList() {
   const [bookList, setBookList] = useState([]);
+  const [completeBookList, setCompleteBookList] = useState([]);
   const [monoType, setMonoType] = useState("book");
   const [category, setCategory] = useState("title");
   const [title, setTitle] = useState();
@@ -22,6 +23,36 @@ export default function ShowSearchList() {
     getBookList();
     setIsLoading(false);
   }, []);
+
+  useEffect(() => {
+    function assignData() {
+      for (let i = 0; i < bookList.length; i++) {
+        if (
+          bookList[i] &&
+          bookList[i].catalog &&
+          bookList[i].catalog.length > 0
+        ) {
+          for (let j = 0; j < bookList[i].catalog.length; j++) {
+            if (bookList[i].catalog[j].catreg_tag == 14) {
+              bookList[i].monograph.reg_publisher_id =
+                bookList[i].catalog[j].catreg_data;
+            }
+            if (bookList[i].catalog[j].catreg_tag == 11) {
+              bookList[i].monograph.reg_author_id =
+                bookList[i].catalog[j].catreg_data;
+            }
+            if (bookList[i].catalog[j].catreg_tag == 21) {
+              bookList[i].monograph.reg_type =
+                bookList[i].catalog[j].catreg_data;
+            }
+          }
+        }
+      }
+      setCompleteBookList(bookList);
+    }
+
+    assignData();
+  }, [bookList]);
 
   async function resetFilterHandler() {
     setIsLoading(true);
@@ -47,94 +78,106 @@ export default function ShowSearchList() {
   }
 
   return (
-    <div className="flex h-screen w-screen text-xs">
+    <div className="flex h-screen">
       <LibrarianLeftSideBar />
-      <div className="relative flex flex-col w-5/6 items-center">
-        <div className="absolute top-0 inset-x-0 bg-red-400">
-          <div className="bg-gray-900 text-white py-4 px-6 flex justify-between items-center">
-            <div>{localStorage.getItem("fullname")}</div>
-            <div>Search Books</div>
-            <button onClick={logoutHandler}>Logout</button>
-          </div>
-        </div>
-        <div className="mt-20 mx-4 w-full">
-          <form
-            className="flex items-center justify-center space-x-4"
-            onSubmit={searchHandler}
+      <div className="flex-1 flex flex-col overflow-y-hidden">
+        <div className="bg-gray-900 text-white py-4 px-6 flex justify-between items-center">
+          <p className="items-start w-1/2 text-left">
+            {localStorage.getItem("fullname")}
+          </p>
+          <p className="items-start w-1/2 text-center">Search Books</p>
+          <button
+            className="text-white hover:text-gray-400 w-1/2 text-right"
+            onClick={logoutHandler}
           >
-            <div>
-              <input
-                type="radio"
-                id="title"
-                name="monoType"
-                value="book"
-                onChange={(e) => setMonoType(e.target.value)}
-                defaultChecked
-              />
-              <label htmlFor="title">Book</label>
-            </div>
-            <div>
-              <input
-                type="radio"
-                id="author"
-                name="monoType"
-                value="article"
-                onChange={(e) => setMonoType(e.target.value)}
-              />
-              <label htmlFor="author">Article</label>
-            </div>
-            <div>
-              <input
-                type="radio"
-                id="category"
-                name="monoType"
-                value="magazine"
-                onChange={(e) => setMonoType(e.target.value)}
-              />
-              <label htmlFor="category">Magazine</label>
-            </div>
-            <div>
-              <input
-                type="radio"
-                id="category"
-                name="monoType"
-                value="av"
-                onChange={(e) => setMonoType(e.target.value)}
-              />
-              <label htmlFor="category">AV</label>
-            </div>
-            <select
-              name="category"
-              id="category"
-              onChange={(e) => setCategory(e.target.value)}
-            >
-              <option value="title">Title</option>
-              <option value="book_id">Book Id</option>
-              <option value="author">Author</option>
-              <option value="publisher">Publisher</option>
-            </select>
+            Logout
+          </button>
+        </div>
+        <br></br>
+        <form
+          className="flex items-center justify-center space-x-4"
+          onSubmit={searchHandler}
+        >
+          <div>
             <input
-              name="title"
-              type="text"
-              placeholder="Search here..."
-              className="border border-gray-400 rounded py-2 px-4"
-              onChange={(e) => setTitle(e.target.value)}
-              required
+              type="radio"
+              id="title"
+              name="monoType"
+              value="book"
+              onChange={(e) => setMonoType(e.target.value)}
+              defaultChecked
             />
-            <button
-              type="submit"
-              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-            >
-              Search
-            </button>
-            <button
-              className="bg-yellow-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-              onClick={resetFilterHandler}
-            >
-              Clear
-            </button>
-          </form>
-          <BookListTable data={bookList} role="librarian" />
+            <label htmlFor="title">Book</label>
+          </div>
+          <div>
+            <input
+              type="radio"
+              id="author"
+              name="monoType"
+              value="article"
+              onChange={(e) => setMonoType(e.target.value)}
+            />
+            <label htmlFor="author">Article</label>
+          </div>
+          <div>
+            <input
+              type="radio"
+              id="category"
+              name="monoType"
+              value="magazine"
+              onChange={(e) => setMonoType(e.target.value)}
+            />
+            <label htmlFor="category">Magazine</label>
+          </div>
+          <div>
+            <input
+              type="radio"
+              id="category"
+              name="monoType"
+              value="av"
+              onChange={(e) => setMonoType(e.target.value)}
+            />
+            <label htmlFor="category">AV</label>
+          </div>
+          <select
+            name="category"
+            id="category"
+            onChange={(e) => setCategory(e.target.value)}
+          >
+            <option value="title">Title</option>
+            <option value="book_id">Book Id</option>
+            <option value="author">Author</option>
+            <option value="publisher">Publisher</option>
+          </select>
+          <input
+            name="title"
+            type="text"
+            placeholder="Search here..."
+            className="border border-gray-400 rounded py-2 px-4"
+            onChange={(e) => setTitle(e.target.value)}
+            required
+          />
+          <button
+            type="submit"
+            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+          >
+            Search
+          </button>
+          <button
+            className="bg-yellow-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+            onClick={resetFilterHandler}
+          >
+            Clear
+          </button>
+        </form>
+
+        <div className="overflow-y-auto">
+          <center>
+            <br></br>
+            <h1 className="text-3xl font-bold mb-4 text-center">Books List</h1>
+
+            <BookListTable data={completeBookList} role="patron" />
+          </center>
         </div>
       </div>
     </div>

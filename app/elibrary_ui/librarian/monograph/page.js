@@ -10,6 +10,7 @@ import "react-toastify/dist/ReactToastify.css";
 
 export default function ShowMonographListPage() {
   const [monographList, setMonographList] = useState([]);
+  const [completeMonographList, setCompleteMonographList] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -26,6 +27,36 @@ export default function ShowMonographListPage() {
     setIsLoading(false);
   }, []);
 
+  useEffect(() => {
+    function assignData() {
+      for (let i = 0; i < monographList.length; i++) {
+        if (
+          monographList[i] &&
+          monographList[i].catalog &&
+          monographList[i].catalog.length > 0
+        ) {
+          for (let j = 0; j < monographList[i].catalog.length; j++) {
+            if (monographList[i].catalog[j].catreg_tag == 14) {
+              monographList[i].monograph.reg_publisher_id =
+                monographList[i].catalog[j].catreg_data;
+            }
+            if (monographList[i].catalog[j].catreg_tag == 11) {
+              monographList[i].monograph.reg_author_id =
+                monographList[i].catalog[j].catreg_data;
+            }
+            if (monographList[i].catalog[j].catreg_tag == 21) {
+              monographList[i].monograph.reg_type =
+                monographList[i].catalog[j].catreg_data;
+            }
+          }
+        }
+      }
+      setCompleteMonographList(monographList);
+    }
+
+    assignData();
+  }, [monographList]);
+
   function logoutHandler() {
     setIsLoading(true);
     localStorage.clear();
@@ -37,10 +68,10 @@ export default function ShowMonographListPage() {
   }
 
   return (
-    <div className="flex">
+    <div className="flex h-screen">
       <LibrarianLeftSideBar />
       <ToastContainer />
-      <div className="flex-1 flex flex-col">
+      <div className="flex-1 flex flex-col overflow-y-hidden">
         <div className="bg-gray-900 text-white py-4 px-6 flex justify-between items-center">
           <p className="items-start w-1/2 text-left">
             {localStorage.getItem("fullname")}
@@ -53,10 +84,10 @@ export default function ShowMonographListPage() {
             Logout
           </button>
         </div>
-        <div>
+        <div className="overflow-y-auto">
           <center>
             <br></br>
-            <MonographListTable data={monographList} />
+            <MonographListTable data={completeMonographList} />
           </center>
         </div>
       </div>

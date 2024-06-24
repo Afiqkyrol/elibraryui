@@ -40,7 +40,7 @@ export default function ShowMonoLangList() {
     <div className="flex h-screen">
       <AdminLeftSideBar />
       <ToastContainer />
-      <div className="flex-1 flex flex-col">
+      <div className="flex-1 flex flex-col overflow-y-hidden">
         <div className="bg-gray-900 text-white py-4 px-6 flex justify-between items-center">
           <p className="items-start w-1/2 text-left">
             {localStorage.getItem("fullname")}
@@ -53,7 +53,7 @@ export default function ShowMonoLangList() {
             Logout
           </button>
         </div>
-        <div>
+        <div className="overflow-y-auto">
           <center>
             <br></br>
             <MonoCatalogingTable data={monographCatList} />
