@@ -25,7 +25,7 @@ export default function ShowAuthorFormPage() {
   function logoutHandler() {
     setIsLoading(true);
     localStorage.clear();
-    window.location.href = "/elibrary_ui/login";
+    window.close();
   }
 
   async function submitHandler(e) {

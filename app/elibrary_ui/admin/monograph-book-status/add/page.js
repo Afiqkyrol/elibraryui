@@ -32,7 +32,7 @@ export default function ShowMonoBookStatusList() {
   function logoutHandler() {
     setIsLoading(true);
     localStorage.clear();
-    window.location.href = "/elibrary_ui/login";
+    window.close();
   }
 
   if (isLoading) {

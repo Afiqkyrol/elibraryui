@@ -28,7 +28,7 @@ export default function ShowExtendAppPage({ params }) {
   function logoutHandler() {
     setIsLoading(true);
     localStorage.clear();
-    window.location.href = "/elibrary_ui/login";
+    window.close();
   }
 
   function dateInputHandler(e) {

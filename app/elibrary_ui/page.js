@@ -5,6 +5,8 @@ import { useSearchParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import Loading from "../loading";
 import { authCheck } from "@/api/auth";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const HomePage = () => {
   const searchParams = useSearchParams();
@@ -15,7 +17,21 @@ const HomePage = () => {
 
   useEffect(() => {
     const token = searchParams.get("token");
-    setToken(token);
+    if (localStorage.getItem("auth-token") != null) {
+      if (localStorage.getItem("role") == "PATRON") {
+        router.push("/elibrary_ui/patron");
+      } else if (localStorage.getItem("role") == "LIBRARIAN") {
+        router.push("/elibrary_ui/librarian");
+      } else if (localStorage.getItem("role") == "ADMIN") {
+        router.push("/elibrary_ui/admin");
+      }
+    } else {
+      if (token == null) {
+        toast.error("Access Denied");
+      } else {
+        setToken(token);
+      }
+    }
   }, [searchParams]);
 
   useEffect(() => {
@@ -48,7 +64,12 @@ const HomePage = () => {
   }, [token]);
 
   if (isLoading) {
-    return <Loading />;
+    return (
+      <div>
+        <ToastContainer />
+        <Loading />
+      </div>
+    );
   }
 
   return (

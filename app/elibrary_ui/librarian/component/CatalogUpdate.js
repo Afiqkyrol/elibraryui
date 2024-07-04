@@ -15,6 +15,7 @@ const InputField = ({
   onChange,
   onChangeTitle,
   onChangeDesc,
+  onChangeIsbn,
   tag,
   options,
   currTitle,
@@ -208,6 +209,24 @@ const InputField = ({
         />
       </div>
     );
+  } else if (tag === 3) {
+    onChangeIsbn(value);
+    return (
+      <div className="mb-4">
+        <label className="block text-gray-700 text-sm font-bold mb-2">
+          {label}
+        </label>
+        <input
+          className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          type="text"
+          value={value}
+          onChange={(e) => {
+            onChangeIsbn(e.target.value);
+            onChange(e.target.value);
+          }}
+        />
+      </div>
+    );
   } else {
     return (
       <div className="mb-4">
@@ -230,6 +249,7 @@ const DynamicForm = ({ inputData, inputOptions, monoId, statusOptions }) => {
   const [isLoading, setIsLoading] = useState("");
   const [file, setFile] = useState(null);
   const [title, setTitle] = useState("");
+  const [isbnNum, setIsbnNum] = useState("");
   const [description, setDescription] = useState("");
   const [bookStatus, setBookStatus] = useState(1);
   const [featured, setFeatured] = useState();
@@ -328,6 +348,14 @@ const DynamicForm = ({ inputData, inputOptions, monoId, statusOptions }) => {
       <div>
         <input type="file" onChange={(e) => setFile(e.target.files[0])} />
       </div>
+      <img
+        style={{ height: "80px", width: "200px" }}
+        src={
+          "https://barcode.tec-it.com/barcode.ashx?data=" +
+          isbnNum +
+          "&code=ISBN13&translate-esc=on"
+        }
+      />
       <table className="w-full">
         <thead>
           <tr>
@@ -389,6 +417,7 @@ const DynamicForm = ({ inputData, inputOptions, monoId, statusOptions }) => {
                   options={inputOptions}
                   onChangeTitle={(e) => setTitle(e)}
                   onChangeDesc={(e) => setDescription(e)}
+                  onChangeIsbn={(e) => setIsbnNum(e)}
                   onChange={(newValue) => handleInputChange(index, newValue)}
                 />
               </td>

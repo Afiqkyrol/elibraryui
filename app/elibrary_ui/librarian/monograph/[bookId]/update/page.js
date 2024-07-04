@@ -35,7 +35,7 @@ export default function ShowAddMonographPages({ params }) {
   function logoutHandler() {
     setIsLoading(true);
     localStorage.clear();
-    window.location.href = "/elibrary_ui/login";
+    window.close();
   }
 
   if (isLoading) {
@@ -43,9 +43,9 @@ export default function ShowAddMonographPages({ params }) {
   }
 
   return (
-    <div className="flex ">
+    <div className="flex h-screen">
       <LibrarianLeftSideBar />
-      <div className="flex-1 flex flex-col">
+      <div className="flex-1 flex flex-col overflow-y-hidden">
         <div className="bg-gray-900 text-white py-4 px-6 flex justify-between items-center">
           <p className="items-start w-1/2 text-left">
             {localStorage.getItem("fullname")}
@@ -58,7 +58,7 @@ export default function ShowAddMonographPages({ params }) {
             Logout
           </button>
         </div>
-        <div>
+        <div className="overflow-y-auto">
           <center>
             <br></br>
             <img

@@ -13,7 +13,7 @@ export default function LibrarianDashboardPage() {
 
   useEffect(() => {
     if (!localStorage.getItem("auth-token")) {
-      window.location.href = "/elibrary_ui/login";
+      window.close();
       return;
     }
 
@@ -29,7 +29,7 @@ export default function LibrarianDashboardPage() {
   function logoutHandler() {
     setIsLoading(true);
     localStorage.clear();
-    window.location.href = "/elibrary_ui/login";
+    window.close();
   }
 
   if (isLoading) {

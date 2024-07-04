@@ -75,7 +75,7 @@ export default function ShowSearchList() {
   function logoutHandler() {
     setIsLoading(true);
     localStorage.clear();
-    window.location.href = "/elibrary_ui/login";
+    window.close();
   }
 
   if (isLoading) {
@@ -83,7 +83,7 @@ export default function ShowSearchList() {
   }
 
   return (
-    <div className="flex h-screen">
+    <div className="flex">
       <PatronLeftSideBar />
       <div className="flex-1 flex flex-col overflow-y-hidden">
         <div className="bg-gray-900 text-white py-4 px-6 flex justify-between items-center">

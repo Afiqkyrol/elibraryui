@@ -12,6 +12,7 @@ import { useEffect, useState } from "react";
 export default function ShowMarcTagDetailsPage({ params }) {
   const [isLoading, setIsLoading] = useState(true);
   const [catalogDetails, setCatalogDetails] = useState([]);
+  const [isbnNum, setIsbnNum] = useState("");
   const [imageName, setImageName] = useState("");
 
   useEffect(() => {
@@ -27,7 +28,7 @@ export default function ShowMarcTagDetailsPage({ params }) {
   function logoutHandler() {
     setIsLoading(true);
     localStorage.clear();
-    window.location.href = "/elibrary_ui/login";
+    window.close();
   }
 
   if (isLoading) {
@@ -55,6 +56,8 @@ export default function ShowMarcTagDetailsPage({ params }) {
             <br></br>
             <CatalogDetailsListTable
               data={catalogDetails}
+              setIsbnNum={setIsbnNum}
+              isbnNum={isbnNum}
               image={params.bookId}
             />
           </center>

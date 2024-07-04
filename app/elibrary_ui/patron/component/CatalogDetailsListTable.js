@@ -15,6 +15,14 @@ export default function CatalogDetailsListTable({ data, image }) {
           style={{ height: "140px", width: "100px" }}
           src={imagePath + image}
         />
+        <img
+          style={{ height: "100px", width: "200px" }}
+          src={
+            "https://barcode.tec-it.com/barcode.ashx?data=" +
+            9781234567897 +
+            "&code=ISBN13&translate-esc=on"
+          }
+        />
         <table className="min-w-full w-4/5">
           <thead>
             <tr>

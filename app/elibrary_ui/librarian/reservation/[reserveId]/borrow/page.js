@@ -34,7 +34,7 @@ export default function ShowCreateBorrowPage({ params }) {
   function logoutHandler() {
     setIsLoading(true);
     localStorage.clear();
-    window.location.href = "/elibrary_ui/login";
+    window.close();
   }
 
   function dateInputHandler(e) {

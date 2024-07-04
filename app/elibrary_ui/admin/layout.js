@@ -13,10 +13,10 @@ export default function AdminLayout({ children }) {
 
     if (localStorage.getItem("role") != "ADMIN") {
       if (localStorage.getItem("role") === "PATRON") {
-        window.location.href = "/patron";
+        window.location.href = "/elibrary_ui/patron";
         return null;
       } else if (localStorage.getItem("role") === "LIBRARIAN") {
-        window.location.href = "/librarian";
+        window.location.href = "/elibrary_ui/librarian";
         return null;
       }
     }
