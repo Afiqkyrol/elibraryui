@@ -54,21 +54,17 @@ export default function LibrarianDashboardPage() {
         </div>
         <div className="flex-1 overflow-y-auto p-6">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            <div className="bg-white rounded-lg shadow-md p-6 cursor-pointer">
+            <div className="bg-white rounded-lg shadow-md p-6 cursor-pointer bg-green-300">
               <h2 className="text-lg font-semibold mb-2">
                 {reservationList.length}
               </h2>
               <p>Total Reservation</p>
             </div>
-            <div className="bg-white rounded-lg shadow-md p-6 cursor-pointer">
+            <div className="bg-white rounded-lg shadow-md p-6 cursor-pointer bg-blue-300">
               <h2 className="text-lg font-semibold mb-2">
                 {extendApplicationList.length}
               </h2>
               <p>Total Extend Application</p>
-            </div>
-            <div className="bg-white rounded-lg shadow-md p-6 cursor-pointer">
-              <h2 className="text-lg font-semibold mb-2">Test</h2>
-              <p>Description</p>
             </div>
           </div>
         </div>

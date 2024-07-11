@@ -83,7 +83,7 @@ export default function ShowSearchList() {
   }
 
   return (
-    <div className="flex">
+    <div className="flex h-screen">
       <PatronLeftSideBar />
       <div className="flex-1 flex flex-col overflow-y-hidden">
         <div className="bg-gray-900 text-white py-4 px-6 flex justify-between items-center">

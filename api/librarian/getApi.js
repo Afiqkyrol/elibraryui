@@ -318,3 +318,13 @@ export async function fetchMonoStatusList() {
   });
   return response.data;
 }
+
+export async function fetchLtMonoCat() {
+  const token = localStorage.getItem("auth-token");
+  const response = await axiosInstance.get(`/librarian/lt-mono-cat`, {
+    headers: {
+      Authorization: "Bearer " + token,
+    },
+  });
+  return response.data;
+}

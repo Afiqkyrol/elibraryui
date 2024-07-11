@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import {
   fetchCataloging,
   fetchCatalogingOptions,
+  fetchLtMonoCat,
   fetchMonoStatusList,
   fetchMonographMarcTag,
   fetchRegMonographDetails,
@@ -17,8 +18,10 @@ export default function ShowAddMonographPages({ params }) {
   const [catalog, setCatalog] = useState([]);
   const [catalogOptions, setCatalogOptions] = useState("");
   const [monograph, setMonograph] = useState([]);
+  const [ltMonoCat, setLtMonoCat] = useState([]);
   const [bookStatusOption, setBookStatusOption] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [ltMonoCatData, setLtMonoCatData] = useState([]);
 
   useEffect(() => {
     async function getCatalogDetails() {
@@ -26,11 +29,16 @@ export default function ShowAddMonographPages({ params }) {
       setMonograph(await fetchRegMonographDetails(params.bookId));
       setCatalogOptions(await fetchCatalogingOptions());
       setBookStatusOption(await fetchMonoStatusList());
+      setLtMonoCat(await fetchLtMonoCat());
     }
 
     getCatalogDetails();
     setIsLoading(false);
   }, []);
+
+  useEffect(() => {
+    setLtMonoCatData(ltMonoCat);
+  }, [ltMonoCat]);
 
   function logoutHandler() {
     setIsLoading(true);
@@ -69,6 +77,7 @@ export default function ShowAddMonographPages({ params }) {
               data={catalog}
               options={catalogOptions}
               statusOption={bookStatusOption}
+              ltMonoCat={ltMonoCatData}
               reg_id={params.bookId}
             />
           </center>

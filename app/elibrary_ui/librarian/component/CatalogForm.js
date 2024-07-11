@@ -223,6 +223,7 @@ const InputField = ({
             onChangeIsbn(e.target.value);
             onChange(e.target.value);
           }}
+          required
         />
       </div>
     );

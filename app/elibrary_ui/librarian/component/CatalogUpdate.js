@@ -1,10 +1,11 @@
 "use client";
 
+import { fetchLtMonoCat } from "@/api/librarian/getApi";
 import { saveNewCatalog, saveRegMonograph } from "@/api/librarian/postApi";
 import { updateNewCatalog, updateRegMonograph } from "@/api/librarian/putApi";
 import Loading from "@/app/elibrary_ui/loading";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -245,7 +246,13 @@ const InputField = ({
 };
 
 // Form component
-const DynamicForm = ({ inputData, inputOptions, monoId, statusOptions }) => {
+const DynamicForm = ({
+  inputData,
+  inputOptions,
+  monoId,
+  statusOptions,
+  ltMonoCats,
+}) => {
   const [isLoading, setIsLoading] = useState("");
   const [file, setFile] = useState(null);
   const [title, setTitle] = useState("");
@@ -255,6 +262,7 @@ const DynamicForm = ({ inputData, inputOptions, monoId, statusOptions }) => {
   const [featured, setFeatured] = useState();
   const [publish, setPublish] = useState();
   const [ebook, setEbook] = useState();
+  const [ltMonoCatss, setLtMonoCatss] = useState(ltMonoCats);
   const router = useRouter();
   const [inputValues, setInputValues] = useState(
     Array(inputData.length).fill("")
@@ -265,6 +273,15 @@ const DynamicForm = ({ inputData, inputOptions, monoId, statusOptions }) => {
   const [ind2Values, setInd2Values] = useState(
     Array(inputData.length).fill("")
   );
+
+  const fetchData = async () => {
+    const newData = await fetchLtMonoCat();
+    setLtMonoCatss(newData);
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
 
   // Function to update input values
   const handleInputChange = (index, newValue) => {
@@ -409,7 +426,13 @@ const DynamicForm = ({ inputData, inputOptions, monoId, statusOptions }) => {
                   onChange={(e) => handleInd2Change(index, e.target.value)}
                 />
               </td>
-              <td className="py-2 px-4">{item.catreg_tag}</td>
+              <td className="py-2 px-4">
+                {ltMonoCatss
+                  .filter((cat) => cat.cataloging_tag === item.catreg_tag)
+                  .map((filteredItem, index) => (
+                    <span key={index}>{filteredItem.cataloging_data}</span>
+                  ))}
+              </td>
               <td className="py-2 px-4">
                 <InputField
                   tag={item.catreg_tag}
@@ -537,15 +560,15 @@ const DynamicForm = ({ inputData, inputOptions, monoId, statusOptions }) => {
 };
 
 // Usage
-const UpdateFormPage = ({ data, options, reg_id, statusOption }) => {
+const UpdateFormPage = ({ data, options, reg_id, statusOption, ltMonoCat }) => {
   // Example array of objects
   const inputData = data;
-
   return (
     <DynamicForm
       inputData={inputData}
       inputOptions={options}
       monoId={reg_id}
+      ltMonoCats={ltMonoCat}
       statusOptions={statusOption}
     />
   );

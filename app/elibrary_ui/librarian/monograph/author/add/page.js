@@ -6,6 +6,8 @@ import LibrarianLeftSideBar from "@/app/elibrary_ui/component/LibrarianLeftSideB
 import Loading from "@/app/elibrary_ui/loading";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function ShowAuthorFormPage() {
   const [isLoading, setIsLoading] = useState(true);
@@ -36,9 +38,10 @@ export default function ShowAuthorFormPage() {
 
     try {
       await saveAuthor(authorName, email, telephone, publisher);
-      console.log("success");
+      localStorage.setItem("toast-message", "Add Successful");
+      router.push("/elibrary_ui/librarian/monograph/author");
     } catch (error) {
-      console.log("fail");
+      toast.error("Error");
     }
   }
 
@@ -49,6 +52,7 @@ export default function ShowAuthorFormPage() {
   return (
     <div className="flex h-screen">
       <LibrarianLeftSideBar />
+      <ToastContainer />
       <div className="flex-1 flex flex-col">
         <div className="bg-gray-900 text-white py-4 px-6 flex justify-between items-center">
           <p className="items-start w-1/2 text-left">

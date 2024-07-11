@@ -5,6 +5,8 @@ import LibrarianLeftSideBar from "@/app/elibrary_ui/component/LibrarianLeftSideB
 import Loading from "@/app/elibrary_ui/loading";
 import { useEffect, useState } from "react";
 import PublisherListTable from "../../component/PublisherListTable";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function ShowAuthorListPage() {
   const [publisherList, setPublisherList] = useState([]);
@@ -13,6 +15,11 @@ export default function ShowAuthorListPage() {
   useEffect(() => {
     async function getPublisherList() {
       setPublisherList(await fetchPublisherList());
+      if (localStorage.getItem("toast-message")) {
+        const toastMessage = localStorage.getItem("toast-message");
+        toast.success(toastMessage);
+        localStorage.removeItem("toast-message");
+      }
     }
 
     getPublisherList();
@@ -32,6 +39,7 @@ export default function ShowAuthorListPage() {
   return (
     <div className="flex h-screen">
       <LibrarianLeftSideBar />
+      <ToastContainer />
       <div className="flex-1 flex flex-col">
         <div className="bg-gray-900 text-white py-4 px-6 flex justify-between items-center">
           <p className="items-start w-1/2 text-left">
