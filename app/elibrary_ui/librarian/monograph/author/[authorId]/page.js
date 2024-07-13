@@ -1,78 +1,68 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { fetchAuthor, fetchPublisherList } from "@/api/librarian/getApi";
+import { saveAuthor } from "@/api/librarian/postApi";
+import { updateAuthor } from "@/api/librarian/putApi";
+import LibrarianLeftSideBar from "@/app/elibrary_ui/component/LibrarianLeftSideBar";
 import Loading from "@/app/elibrary_ui/loading";
-import AdminLeftSideBar from "../../component/AdminLeftSideBar";
-import { fetchMonoLocation } from "@/api/admin/getApi";
-import { updateMonoLocation, updateMonoStatus } from "@/api/admin/putApi";
-import { deleteLocation } from "@/api/admin/deleteApi";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { useRouter } from "next/navigation";
 
-export default function ShowSubjectUpdatePage({ params }) {
+export default function ShowAuthorFormPage({ params }) {
   const [isLoading, setIsLoading] = useState(true);
-  const [monoLocation, setMonoLocation] = useState([]);
-  const [location, setLocation] = useState("");
-  const [wilayah, setWilayah] = useState("");
-  const [code, setCode] = useState("");
+  const [author, setAuthor] = useState({});
+  const [publisherList, setPublisherList] = useState([]);
+  const [authorName, setAuthorName] = useState("");
   const [telephone, setTelephone] = useState("");
-  const [address, setAddress] = useState("");
+  const [email, setEmail] = useState("");
+  const [publisher, setPublisher] = useState("");
   const router = useRouter();
 
   useEffect(() => {
-    async function getMonoLocation() {
-      setMonoLocation(await fetchMonoLocation(params.locId));
+    async function getPublisherList() {
+      setPublisherList(await fetchPublisherList());
+      setAuthor(await fetchAuthor(params.authorId));
     }
 
-    getMonoLocation();
+    getPublisherList();
     setIsLoading(false);
   }, []);
 
   useEffect(() => {
     function initValue() {
-      setLocation(monoLocation.loc_location);
-      setWilayah(monoLocation.loc_wilayah);
-      setCode(monoLocation.loc_location_code);
-      setTelephone(monoLocation.loc_telephone);
-      setAddress(monoLocation.loc_address);
+      setAuthorName(author.author_name);
+      setTelephone(author.author_telephone);
+      setEmail(author.author_email);
+      setPublisher(author.publisher_id);
     }
 
     initValue();
-  }, [monoLocation]);
-
-  async function deleteHandler() {
-    try {
-      await deleteLocation(params.locId);
-      localStorage.setItem("toast-message", "Delete successful");
-      router.push("/elibrary_ui/admin/monograph-location");
-    } catch (error) {
-      toast.error("fail");
-    }
-  }
-
-  async function submitHandler(e) {
-    e.preventDefault();
-    try {
-      await updateMonoLocation(
-        params.locId,
-        location,
-        wilayah,
-        code,
-        telephone,
-        address
-      );
-      localStorage.setItem("toast-message", "Update Successful");
-      router.push("/elibrary_ui/admin/monograph-location");
-    } catch (error) {
-      toast.error("Error");
-    }
-  }
+  }, [author]);
 
   function logoutHandler() {
     setIsLoading(true);
     localStorage.clear();
     window.close();
+  }
+
+  async function submitHandler(e) {
+    e.preventDefault();
+
+    try {
+      await updateAuthor(
+        params.authorId,
+        authorName,
+        email,
+        telephone,
+        publisher
+      );
+      localStorage.setItem("toast-message", "Update Successful");
+      router.push("/elibrary_ui/librarian/monograph/author");
+    } catch (error) {
+      toast.error("Error");
+    }
   }
 
   if (isLoading) {
@@ -81,16 +71,14 @@ export default function ShowSubjectUpdatePage({ params }) {
 
   return (
     <div className="flex h-screen">
-      <AdminLeftSideBar />
+      <LibrarianLeftSideBar />
       <ToastContainer />
       <div className="flex-1 flex flex-col">
         <div className="bg-gray-900 text-white py-4 px-6 flex justify-between items-center">
           <p className="items-start w-1/2 text-left">
             {localStorage.getItem("fullname")}
           </p>
-          <p className="items-start w-1/2 text-center">
-            Update Monograph Location
-          </p>
+          <p className="items-start w-1/2 text-center">Update Author</p>
           <button
             className="text-white hover:text-gray-400 w-1/2 text-right"
             onClick={logoutHandler}
@@ -101,22 +89,17 @@ export default function ShowSubjectUpdatePage({ params }) {
         <div>
           <center>
             <br></br>
-            <button
-              onClick={deleteHandler}
-              className="bg-red-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-            >
-              Delete
-            </button>
             <form onSubmit={submitHandler} className="max-w-sm mx-auto mt-8">
               <div className="mb-4">
                 <label className="block text-gray-700 text-sm font-bold mb-2">
-                  Location
+                  Author Name
                 </label>
                 <input
                   type="text"
-                  value={location}
+                  name="author_name"
+                  value={authorName}
                   onChange={(e) => {
-                    setLocation(e.target.value);
+                    setAuthorName(e.target.value);
                   }}
                   className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                   required
@@ -124,40 +107,11 @@ export default function ShowSubjectUpdatePage({ params }) {
               </div>
               <div className="mb-4">
                 <label className="block text-gray-700 text-sm font-bold mb-2">
-                  Wilayah
+                  Author Telephone
                 </label>
                 <input
                   type="text"
-                  value={wilayah}
-                  onChange={(e) => {
-                    setWilayah(e.target.value);
-                  }}
-                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                  required
-                />
-              </div>
-
-              <div className="mb-4">
-                <label className="block text-gray-700 text-sm font-bold mb-2">
-                  Location Code
-                </label>
-                <input
-                  type="text"
-                  value={code}
-                  onChange={(e) => {
-                    setCode(e.target.value);
-                  }}
-                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                  required
-                />
-              </div>
-
-              <div className="mb-4">
-                <label className="block text-gray-700 text-sm font-bold mb-2">
-                  Telephone
-                </label>
-                <input
-                  type="text"
+                  name="author_telephone"
                   value={telephone}
                   onChange={(e) => {
                     setTelephone(e.target.value);
@@ -166,20 +120,37 @@ export default function ShowSubjectUpdatePage({ params }) {
                   required
                 />
               </div>
-
               <div className="mb-4">
                 <label className="block text-gray-700 text-sm font-bold mb-2">
-                  Address
+                  Author Email
                 </label>
                 <input
-                  type="text"
-                  value={address}
-                  onChange={(e) => {
-                    setAddress(e.target.value);
-                  }}
+                  type="email"
+                  name="author_email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
                   className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                   required
                 />
+              </div>
+              <div className="mb-4">
+                <label className="block text-gray-700 text-sm font-bold mb-2">
+                  Publisher
+                </label>
+                <select
+                  name="publisher"
+                  value={publisher}
+                  onChange={(e) => setPublisher(e.target.value)}
+                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                  required
+                >
+                  <option value="">Select...</option>
+                  {publisherList.map((publisher, index) => (
+                    <option key={index} value={publisher.publisher_id}>
+                      {publisher.publisher_name}
+                    </option>
+                  ))}
+                </select>
               </div>
               <button
                 type="submit"

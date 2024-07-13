@@ -200,3 +200,32 @@ export async function updateNewCatalog(mono_id, tag, ind1, ind2, data) {
 
   return response.data;
 }
+
+export async function updateAuthor(
+  author_id,
+  author_name,
+  email,
+  telephone,
+  publisher
+) {
+  const formData = new FormData();
+  formData.append("author_name", author_name);
+  formData.append("author_email", email);
+  formData.append("author_telephone", telephone);
+  formData.append("publisher_id", publisher);
+
+  const token = localStorage.getItem("auth-token");
+
+  const response = await axiosInstance.put(
+    "/librarian/monograph/author/" + author_id,
+    formData,
+    {
+      headers: {
+        "Content-Type": "multipart/form-data",
+        Authorization: "Bearer " + token,
+      },
+    }
+  );
+
+  return response.data;
+}
