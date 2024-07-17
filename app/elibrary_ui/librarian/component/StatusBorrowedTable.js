@@ -6,7 +6,7 @@ export default function StatusBorrowedTable(props) {
     tableContent = (
       <tbody className="bg-white divide-y divide-gray-200">
         <tr>
-          <td className="px-6 py-4 whitespace-nowrap" colSpan="5">
+          <td className="px-6 py-4 whitespace-nowrap" colSpan="8">
             <div className="flex items-center justify-center">
               <p className="text-gray-500">Empty</p>
             </div>

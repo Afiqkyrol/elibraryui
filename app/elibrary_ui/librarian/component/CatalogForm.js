@@ -331,6 +331,13 @@ const DynamicForm = ({ inputData, inputOptions, statusOptions }) => {
       if (response) {
         for (let i = 0; i < submittedData.length; i++) {
           if (
+            submittedData[i].value == "select..." ||
+            submittedData[i].value == null ||
+            submittedData[i].value == ""
+          ) {
+            submittedData[i].value = "No Data";
+          }
+          if (
             submittedData[i].value != "select..." &&
             submittedData[i].value != null &&
             submittedData[i].value != ""

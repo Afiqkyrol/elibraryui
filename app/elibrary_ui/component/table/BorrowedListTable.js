@@ -1,6 +1,7 @@
 import Link from "next/link";
 
 export default function BorrowedListTable(props) {
+  console.log(props.data);
   return (
     <div className="container mx-auto" style={{ width: "95%" }}>
       <table className="min-w-full">
@@ -55,7 +56,7 @@ export default function BorrowedListTable(props) {
                 {book.status_extend}
               </td>
               <td className="px-6 py-4 whitespace-no-wrap">
-                {book.extend_date == null ? (
+                {book.extend_date == null && book.act_date_return == null ? (
                   <Link
                     href={`/elibrary_ui/patron/borrowed/${book.history_id}`}
                   >

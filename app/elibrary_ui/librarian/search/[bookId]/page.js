@@ -89,12 +89,6 @@ export default function ShowMonographAboutPage({ params }) {
               </div>
               <div class="mb-4">
                 <label class="block text-sm font-medium text-gray-700">
-                  Copy:
-                </label>
-                <p class="text-gray-900">{monographAbout.copy}</p>
-              </div>
-              <div class="mb-4">
-                <label class="block text-sm font-medium text-gray-700">
                   Status:
                 </label>
                 <p class="text-gray-900">{monographAbout.status}</p>
