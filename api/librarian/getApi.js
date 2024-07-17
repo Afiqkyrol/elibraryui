@@ -286,6 +286,19 @@ export async function fetchPublisherList() {
   return response.data;
 }
 
+export async function fetchPublisher(publisher_id) {
+  const token = localStorage.getItem("auth-token");
+  const response = await axiosInstance.get(
+    `/librarian/monograph/publisher/` + publisher_id,
+    {
+      headers: {
+        Authorization: "Bearer " + token,
+      },
+    }
+  );
+  return response.data;
+}
+
 export async function fetchMonographImage(book_id) {
   const token = localStorage.getItem("auth-token");
   const response = await axiosInstance.get(`/librarian/image/${book_id}`, {

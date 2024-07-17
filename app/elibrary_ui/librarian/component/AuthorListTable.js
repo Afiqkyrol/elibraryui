@@ -52,6 +52,15 @@ export default function AuthorListTable(props) {
               <td className="px-6 py-4 whitespace-no-wrap">
                 {author.author_email}
               </td>
+              <td className="px-6 py-4 whitespace-no-wrap">
+                <Link
+                  href={`/elibrary_ui/librarian/monograph/author/${author.author_id}`}
+                >
+                  <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                    update
+                  </button>
+                </Link>
+              </td>
             </tr>
           ))}
         </tbody>

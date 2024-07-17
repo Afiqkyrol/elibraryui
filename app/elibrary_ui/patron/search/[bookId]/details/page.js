@@ -14,6 +14,7 @@ export default function ShowMarcTagDetailsPage({ params }) {
   const [isLoading, setIsLoading] = useState(true);
   const [catalogDetails, setCatalogDetails] = useState([]);
   const [imageName, setImageName] = useState("");
+  const [isbnNum, setIsbnNum] = useState("");
   const router = useRouter();
 
   useEffect(() => {
@@ -67,6 +68,8 @@ export default function ShowMarcTagDetailsPage({ params }) {
             <CatalogDetailsListTable
               data={catalogDetails}
               image={params.bookId}
+              isbnNum={isbnNum}
+              setIsbnNum={setIsbnNum}
             />
           </center>
         </div>

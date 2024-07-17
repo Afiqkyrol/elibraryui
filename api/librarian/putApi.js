@@ -229,3 +229,36 @@ export async function updateAuthor(
 
   return response.data;
 }
+
+export async function updatePublisher(
+  publisher_id,
+  publisher_name,
+  address1,
+  address2,
+  address3,
+  email,
+  telephone
+) {
+  const formData = new FormData();
+  formData.append("publisher_name", publisher_name);
+  formData.append("publisher_address1", address1);
+  formData.append("publisher_address2", address2);
+  formData.append("publisher_address3", address3);
+  formData.append("publisher_telephone", telephone);
+  formData.append("publisher_email", email);
+
+  const token = localStorage.getItem("auth-token");
+
+  const response = await axiosInstance.put(
+    "/librarian/monograph/publisher/" + publisher_id,
+    formData,
+    {
+      headers: {
+        "Content-Type": "multipart/form-data",
+        Authorization: "Bearer " + token,
+      },
+    }
+  );
+
+  return response.data;
+}

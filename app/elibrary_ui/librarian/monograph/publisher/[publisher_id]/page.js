@@ -1,9 +1,9 @@
 "use client";
 
-import { deleteAuthor } from "@/api/librarian/deleteApi";
-import { fetchAuthor, fetchPublisherList } from "@/api/librarian/getApi";
-import { saveAuthor } from "@/api/librarian/postApi";
-import { updateAuthor } from "@/api/librarian/putApi";
+import { deletePublisher } from "@/api/librarian/deleteApi";
+import { fetchPublisher, fetchPublisherList } from "@/api/librarian/getApi";
+import { saveAuthor, savePublisher } from "@/api/librarian/postApi";
+import { updatePublisher } from "@/api/librarian/putApi";
 import LibrarianLeftSideBar from "@/app/elibrary_ui/component/LibrarianLeftSideBar";
 import Loading from "@/app/elibrary_ui/loading";
 import { useRouter } from "next/navigation";
@@ -13,34 +13,36 @@ import "react-toastify/dist/ReactToastify.css";
 
 export default function ShowAuthorFormPage({ params }) {
   const [isLoading, setIsLoading] = useState(true);
-  const [author, setAuthor] = useState({});
-  const [publisherList, setPublisherList] = useState([]);
-  const [authorName, setAuthorName] = useState("");
+  const [publisherName, setPublisherName] = useState("");
+  const [address1, setAddress1] = useState("");
+  const [address2, setAddress2] = useState("");
+  const [address3, setAddress3] = useState("");
   const [telephone, setTelephone] = useState("");
   const [email, setEmail] = useState("");
   const [publisher, setPublisher] = useState("");
   const router = useRouter();
 
   useEffect(() => {
-    async function getPublisherList() {
-      setPublisherList(await fetchPublisherList());
-      setAuthor(await fetchAuthor(params.authorId));
+    async function getPublisher() {
+      setPublisher(await fetchPublisher(params.publisher_id));
     }
 
-    getPublisherList();
+    getPublisher();
     setIsLoading(false);
   }, []);
 
   useEffect(() => {
     function initValue() {
-      setAuthorName(author.author_name);
-      setTelephone(author.author_telephone);
-      setEmail(author.author_email);
-      setPublisher(author.publisher_id);
+      setPublisherName(publisher.publisher_name);
+      setAddress1(publisher.publisher_address1);
+      setAddress2(publisher.publisher_address2);
+      setAddress3(publisher.publisher_address3);
+      setTelephone(publisher.publisher_telephone);
+      setEmail(publisher.publisher_email);
     }
 
     initValue();
-  }, [author]);
+  }, [publisher]);
 
   function logoutHandler() {
     setIsLoading(true);
@@ -50,9 +52,9 @@ export default function ShowAuthorFormPage({ params }) {
 
   async function deleteHandler() {
     try {
-      await deleteAuthor(params.authorId);
+      await deletePublisher(params.publisher_id);
       localStorage.setItem("toast-message", "Delete successful");
-      router.push("/elibrary_ui/librarian/monograph/author");
+      router.push("/elibrary_ui/librarian/monograph/publisher");
     } catch (error) {
       toast.error("fail");
     }
@@ -62,15 +64,17 @@ export default function ShowAuthorFormPage({ params }) {
     e.preventDefault();
 
     try {
-      await updateAuthor(
-        params.authorId,
-        authorName,
+      await updatePublisher(
+        params.publisher_id,
+        publisherName,
+        address1,
+        address2,
+        address3,
         email,
-        telephone,
-        publisher
+        telephone
       );
-      localStorage.setItem("toast-message", "Update Successful");
-      router.push("/elibrary_ui/librarian/monograph/author");
+      localStorage.setItem("toast-message", "Add Successful");
+      router.push("/elibrary_ui/librarian/monograph/publisher");
     } catch (error) {
       toast.error("Error");
     }
@@ -89,7 +93,7 @@ export default function ShowAuthorFormPage({ params }) {
           <p className="items-start w-1/2 text-left">
             {localStorage.getItem("fullname")}
           </p>
-          <p className="items-start w-1/2 text-center">Update Author</p>
+          <p className="items-start w-1/2 text-center">New Publisher</p>
           <button
             className="text-white hover:text-gray-400 w-1/2 text-right"
             onClick={logoutHandler}
@@ -109,14 +113,14 @@ export default function ShowAuthorFormPage({ params }) {
             <form onSubmit={submitHandler} className="max-w-sm mx-auto mt-8">
               <div className="mb-4">
                 <label className="block text-gray-700 text-sm font-bold mb-2">
-                  Author Name
+                  Publisher Name
                 </label>
                 <input
                   type="text"
                   name="author_name"
-                  value={authorName}
+                  value={publisherName}
                   onChange={(e) => {
-                    setAuthorName(e.target.value);
+                    setPublisherName(e.target.value);
                   }}
                   className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                   required
@@ -124,7 +128,52 @@ export default function ShowAuthorFormPage({ params }) {
               </div>
               <div className="mb-4">
                 <label className="block text-gray-700 text-sm font-bold mb-2">
-                  Author Telephone
+                  Address 1
+                </label>
+                <input
+                  type="text"
+                  name="address1"
+                  value={address1}
+                  onChange={(e) => {
+                    setAddress1(e.target.value);
+                  }}
+                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                  required
+                />
+              </div>
+              <div className="mb-4">
+                <label className="block text-gray-700 text-sm font-bold mb-2">
+                  Address 2
+                </label>
+                <input
+                  type="text"
+                  name="address2"
+                  value={address2}
+                  onChange={(e) => {
+                    setAddress2(e.target.value);
+                  }}
+                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                  required
+                />
+              </div>
+              <div className="mb-4">
+                <label className="block text-gray-700 text-sm font-bold mb-2">
+                  Address 3
+                </label>
+                <input
+                  type="text"
+                  name="address3"
+                  value={address3}
+                  onChange={(e) => {
+                    setAddress3(e.target.value);
+                  }}
+                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                  required
+                />
+              </div>
+              <div className="mb-4">
+                <label className="block text-gray-700 text-sm font-bold mb-2">
+                  Publisher Telephone
                 </label>
                 <input
                   type="text"
@@ -139,7 +188,7 @@ export default function ShowAuthorFormPage({ params }) {
               </div>
               <div className="mb-4">
                 <label className="block text-gray-700 text-sm font-bold mb-2">
-                  Author Email
+                  Publisher Email
                 </label>
                 <input
                   type="email"
@@ -151,30 +200,13 @@ export default function ShowAuthorFormPage({ params }) {
                 />
               </div>
               <div className="mb-4">
-                <label className="block text-gray-700 text-sm font-bold mb-2">
-                  Publisher
-                </label>
-                <select
-                  name="publisher"
-                  value={publisher}
-                  onChange={(e) => setPublisher(e.target.value)}
-                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                  required
+                <button
+                  type="submit"
+                  className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
                 >
-                  <option value="">Select...</option>
-                  {publisherList.map((publisher, index) => (
-                    <option key={index} value={publisher.publisher_id}>
-                      {publisher.publisher_name}
-                    </option>
-                  ))}
-                </select>
+                  Submit
+                </button>
               </div>
-              <button
-                type="submit"
-                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-              >
-                Submit
-              </button>
             </form>
           </center>
         </div>

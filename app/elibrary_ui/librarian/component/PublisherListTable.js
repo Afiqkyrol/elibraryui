@@ -32,6 +32,12 @@ export default function PublisherListTable(props) {
             >
               Publisher Email
             </th>
+            <th
+              style={{ width: "40%" }}
+              className="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider"
+            >
+              Action
+            </th>
           </tr>
         </thead>
         <tbody className="bg-white divide-y divide-gray-200">
@@ -45,6 +51,15 @@ export default function PublisherListTable(props) {
               </td>
               <td className="px-6 py-4 whitespace-no-wrap">
                 {publisher.publisher_email}
+              </td>
+              <td className="px-6 py-4 whitespace-no-wrap">
+                <Link
+                  href={`/elibrary_ui/librarian/monograph/publisher/${publisher.publisher_id}`}
+                >
+                  <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                    update
+                  </button>
+                </Link>
               </td>
             </tr>
           ))}
