@@ -5,10 +5,12 @@ import LibrarianLeftSideBar from "@/app/elibrary_ui/component/LibrarianLeftSideB
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { fetchMonographAbout } from "@/api/librarian/getApi";
+import { useRouter } from "next/navigation";
 
 export default function ShowMonographAboutPage({ params }) {
   const [monographAbout, setMonographAbout] = useState({});
   const [isLoading, setIsLoading] = useState(true);
+  const router = useRouter();
 
   useEffect(() => {
     async function getMonographAbout(reg_id) {
@@ -53,6 +55,14 @@ export default function ShowMonographAboutPage({ params }) {
             class="max-w-xl mx-auto bg-white p-8 shadow-md rounded-md"
             style={{ width: "90%" }}
           >
+            <button
+              onClick={() => {
+                router.back();
+              }}
+              class="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:bg-blue-600"
+            >
+              Back
+            </button>
             <h1 class="text-2xl font-semibold text-gray-800 mb-4">
               Book Details
             </h1>

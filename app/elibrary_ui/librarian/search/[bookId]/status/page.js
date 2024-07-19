@@ -6,11 +6,13 @@ import { useEffect, useState } from "react";
 import Loading from "@/app/elibrary_ui/loading";
 import LibrarianLeftSideBar from "@/app/elibrary_ui/component/LibrarianLeftSideBar";
 import { fetchStatusBook, fetchStatusBorrow } from "@/api/librarian/getApi";
+import { useRouter } from "next/navigation";
 
 export default function ShowReservationList({ params }) {
   const [reservationList, setReservationList] = useState([]);
   const [borrowedList, setBorrowedList] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const router = useRouter();
 
   useEffect(() => {
     async function getStatusBook() {
@@ -49,6 +51,14 @@ export default function ShowReservationList({ params }) {
           </button>
         </div>
         <div style={{ height: "100%" }}>
+          <button
+            onClick={() => {
+              router.back();
+            }}
+            class="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:bg-blue-600"
+          >
+            Back
+          </button>
           <center style={{ height: "50%" }}>
             <br></br>
             <h1 className="text-3xl font-bold mb-4 text-center">Reservation</h1>

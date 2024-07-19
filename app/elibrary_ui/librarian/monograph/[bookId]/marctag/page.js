@@ -3,11 +3,13 @@
 import { fetchMonographMarcTag } from "@/api/librarian/getApi";
 import LibrarianLeftSideBar from "@/app/elibrary_ui/component/LibrarianLeftSideBar";
 import Loading from "@/app/elibrary_ui/loading";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 export default function ShowMarcTagDetailsPage({ params }) {
   const [isLoading, setIsLoading] = useState(true);
   const [marcTagList, setMarcTagList] = useState([]);
+  const router = useRouter();
 
   useEffect(() => {
     async function getMarcTag() {
@@ -45,6 +47,14 @@ export default function ShowMarcTagDetailsPage({ params }) {
           </button>
         </div>
         <div className="overflow-y-auto">
+          <button
+            onClick={() => {
+              router.back();
+            }}
+            class="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:bg-blue-600"
+          >
+            Back
+          </button>
           <center>
             <br></br>
             <div className="container mx-auto" style={{ width: "95%" }}>
