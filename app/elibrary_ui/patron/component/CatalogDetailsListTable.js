@@ -35,9 +35,9 @@ export default function CatalogDetailsListTable({
             "&code=ISBN13&translate-esc=on"
           }
         />
-        <Link href={barcodePath + isbnNum} target="_blank">
+        {/* <Link href={barcodePath + isbnNum} target="_blank">
           <button>Download Barcode</button>
-        </Link>
+        </Link> */}
         <table className="min-w-full w-4/5">
           <thead>
             <tr>

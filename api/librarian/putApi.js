@@ -3,11 +3,13 @@ import axiosInstance from "@/util/axiosInstance";
 export async function updateReservationStatus(
   reserve_id,
   reserved_date,
-  status
+  status,
+  remark
 ) {
   const formData = new FormData();
   formData.append("reserved_date", reserved_date);
   formData.append("status", status);
+  formData.append("remark", remark);
 
   const token = localStorage.getItem("auth-token");
 
@@ -48,11 +50,13 @@ export async function updateReservationStatusClosed(reserve_id, status) {
 export async function updateExtendApplicationStatus(
   history_id,
   extend_date,
-  status
+  status,
+  remark
 ) {
   const formData = new FormData();
   formData.append("extend_date", extend_date);
   formData.append("status", status);
+  formData.append("remark", remark);
 
   const token = localStorage.getItem("auth-token");
 

@@ -26,6 +26,8 @@ export default function ShowReturnMonograpghListPage() {
     setIsLoading(false);
   }, []);
 
+  console.log(returnMonoList);
+
   function logoutHandler() {
     setIsLoading(true);
     localStorage.clear();

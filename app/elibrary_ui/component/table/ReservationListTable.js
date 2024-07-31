@@ -1,6 +1,7 @@
 import Link from "next/link";
 
 export default function ReservationListTable(props) {
+  console.log(props.data);
   return (
     <div className="container mx-auto" style={{ width: "95%" }}>
       <table className="min-w-full">
@@ -32,7 +33,7 @@ export default function ReservationListTable(props) {
               <td className="px-6 py-4 whitespace-no-wrap">{book.book_id}</td>
               <td className="px-6 py-4 whitespace-no-wrap">
                 <Link
-                  href="#"
+                  href={`/elibrary_ui/patron/reservation/${book.reserve_id}`}
                   className="text-blue-600 hover:underline"
                   style={{ color: "blue" }}
                 >

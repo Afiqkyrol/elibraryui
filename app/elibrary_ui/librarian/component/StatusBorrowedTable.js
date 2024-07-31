@@ -29,7 +29,15 @@ export default function StatusBorrowedTable(props) {
                 {book.book_title}
               </Link>
             </td>
-            <td class="px-6 py-4 whitespace-no-wrap">{book.borrower}</td>
+            <td class="px-6 py-4 whitespace-no-wrap">
+              <Link
+                href={`/elibrary_ui/librarian/user/${book.borrower_id}`}
+                className="text-blue-600 hover:underline"
+                style={{ color: "blue" }}
+              >
+                {book.borrower}
+              </Link>
+            </td>
             <td class="px-6 py-4 whitespace-no-wrap">{book.copy}</td>
             <td class="px-6 py-4 whitespace-no-wrap">
               {book.status_extend === "approved"

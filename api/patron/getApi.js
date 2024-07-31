@@ -27,6 +27,19 @@ export async function fetchBorrowedList() {
   return response.data;
 }
 
+export async function fetchReservationDetails(reserve_id) {
+  const token = localStorage.getItem("auth-token");
+  const response = await axiosInstance.get(
+    `/patron/reservation/${reserve_id}`,
+    {
+      headers: {
+        Authorization: "Bearer " + token,
+      },
+    }
+  );
+  return response.data;
+}
+
 export async function fetchHistoryList() {
   const token = localStorage.getItem("auth-token");
   const user_id = localStorage.getItem("user_id");

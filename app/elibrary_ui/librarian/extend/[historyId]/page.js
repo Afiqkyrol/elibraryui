@@ -14,6 +14,7 @@ export default function ShowBorrowedBookDetailsPage({ params }) {
   const [borrowed, setBorrowed] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [extendDate, setExtendDate] = useState();
+  const [remark, setRemark] = useState(null);
   const [status, setStatus] = useState();
   const router = useRouter();
 
@@ -40,7 +41,12 @@ export default function ShowBorrowedBookDetailsPage({ params }) {
     setIsLoading(true);
     e.preventDefault();
     try {
-      await updateExtendApplicationStatus(params.historyId, extendDate, status);
+      await updateExtendApplicationStatus(
+        params.historyId,
+        extendDate,
+        status,
+        remark
+      );
       await sendStatusExtendBorrowEmail(params.historyId);
 
       localStorage.setItem("toast-message", "The application has been updated");
@@ -58,6 +64,26 @@ export default function ShowBorrowedBookDetailsPage({ params }) {
 
   if (isLoading) {
     return <Loading />;
+  }
+
+  let remarks = "";
+
+  if (status === "rejected") {
+    remarks = (
+      <div className="mb-4">
+        <label className="block text-gray-700 text-sm font-bold mb-2">
+          Remarks:
+        </label>
+        <textarea
+          id="damage_details"
+          name="damage_details"
+          class="w-full px-3 py-2 text-gray-700 border rounded-lg focus:outline-none focus:border-blue-500"
+          rows="4"
+          onChange={(e) => setRemark(e.target.value)}
+          required
+        ></textarea>
+      </div>
+    );
   }
 
   return (
@@ -160,7 +186,7 @@ export default function ShowBorrowedBookDetailsPage({ params }) {
                       <span className="ml-2">Reject</span>
                     </label>
                   </div>
-
+                  {remarks}
                   <button
                     type="submit"
                     className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"

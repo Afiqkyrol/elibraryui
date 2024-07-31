@@ -57,6 +57,19 @@ export async function fetchUser(user_id) {
   return response.data;
 }
 
+export async function fetchUserById(user_id) {
+  const token = localStorage.getItem("auth-token");
+  const response = await axiosInstance.get(
+    `/librarian/user_details/${user_id}`,
+    {
+      headers: {
+        Authorization: "Bearer " + token,
+      },
+    }
+  );
+  return response.data;
+}
+
 export async function fetchReservationList() {
   const token = localStorage.getItem("auth-token");
   const response = await axiosInstance.get("/librarian/reservation-list", {

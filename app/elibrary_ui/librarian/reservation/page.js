@@ -25,7 +25,7 @@ export default function ShowReservationList() {
     getReservationList();
     setIsLoading(false);
   }, []);
-
+  console.log(reservationList);
   function logoutHandler() {
     setIsLoading(true);
     localStorage.clear();

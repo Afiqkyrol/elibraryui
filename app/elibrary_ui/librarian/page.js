@@ -5,6 +5,7 @@ import Loading from "../loading";
 import LibrarianLeftSideBar from "../component/LibrarianLeftSideBar";
 import { fetchReservationList } from "@/api/librarianAPI";
 import { fetchExtendApplicationList } from "@/api/librarian/getApi";
+import Link from "next/link";
 
 export default function LibrarianDashboardPage() {
   const [isLoading, setIsLoading] = useState(true);
@@ -54,18 +55,22 @@ export default function LibrarianDashboardPage() {
         </div>
         <div className="flex-1 overflow-y-auto p-6">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            <div className="rounded-lg shadow-md p-6 cursor-pointer bg-green-300">
-              <h2 className="text-lg font-semibold mb-2">
-                {reservationList.length}
-              </h2>
-              <p>Total Reservation</p>
-            </div>
-            <div className="rounded-lg shadow-md p-6 cursor-pointer bg-blue-300">
-              <h2 className="text-lg font-semibold mb-2">
-                {extendApplicationList.length}
-              </h2>
-              <p>Total Extend Application</p>
-            </div>
+            <Link href="/elibrary_ui/librarian/reservation">
+              <div className="rounded-lg shadow-md p-6 cursor-pointer bg-green-300">
+                <h2 className="text-lg font-semibold mb-2">
+                  {reservationList.length}
+                </h2>
+                <p>Total Reservation</p>
+              </div>
+            </Link>
+            <Link href="/elibrary_ui/librarian/extend">
+              <div className="rounded-lg shadow-md p-6 cursor-pointer bg-blue-300">
+                <h2 className="text-lg font-semibold mb-2">
+                  {extendApplicationList.length}
+                </h2>
+                <p>Total Extend Application</p>
+              </div>
+            </Link>
           </div>
         </div>
       </div>

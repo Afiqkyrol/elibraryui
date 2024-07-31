@@ -43,7 +43,15 @@ export default function ReservationListTable(props) {
                 </Link>
               </td>
               <td className="px-6 py-4 whitespace-no-wrap">{book.user_id}</td>
-              <td className="px-6 py-4 whitespace-no-wrap">{book.user_name}</td>
+              <td className="px-6 py-4 whitespace-no-wrap">
+                <Link
+                  href={`/elibrary_ui/librarian/user/${book.user_id}`}
+                  className="text-blue-600 hover:underline"
+                  style={{ color: "blue" }}
+                >
+                  {book.user_name}
+                </Link>
+              </td>
               <td className="px-6 py-4 whitespace-no-wrap">
                 {book.date_reserved}
               </td>
@@ -84,7 +92,7 @@ export default function ReservationListTable(props) {
                             clip-rule="evenodd"
                           />
                         </svg>
-                        Edit
+                        Manage
                       </button>
                     </Link>
                   )}

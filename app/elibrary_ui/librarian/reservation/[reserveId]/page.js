@@ -14,6 +14,7 @@ import "react-toastify/dist/ReactToastify.css";
 export default function ShowReservedBookDetailPage({ params }) {
   const [reservation, setReservation] = useState([]);
   const [status, setStatus] = useState();
+  const [remark, setRemark] = useState();
   const [reservedDate, setReservedDate] = useState("");
   const [isLoading, setIsLoading] = useState(true);
   const [excludeDates, setExcludeDates] = useState();
@@ -56,7 +57,8 @@ export default function ShowReservedBookDetailPage({ params }) {
       await updateReservationStatus(
         params.reserveId,
         new Date(reservedDate),
-        parseInt(status)
+        parseInt(status),
+        remark
       );
       sendStatusReserveEmail(params.reserveId);
       setReservation(await fetchReservedBookDetails(params.reserveId));
@@ -78,6 +80,26 @@ export default function ShowReservedBookDetailPage({ params }) {
     return <Loading />;
   }
 
+  let remarks = "";
+
+  if (status === "3") {
+    remarks = (
+      <div className="mb-4">
+        <label className="block text-gray-700 text-sm font-bold mb-2">
+          Remarks:
+        </label>
+        <textarea
+          id="damage_details"
+          name="damage_details"
+          class="w-full px-3 py-2 text-gray-700 border rounded-lg focus:outline-none focus:border-blue-500"
+          rows="4"
+          onChange={(e) => setRemark(e.target.value)}
+          required
+        ></textarea>
+      </div>
+    );
+  }
+
   return (
     <div className="flex h-screen">
       <ToastContainer />
@@ -95,7 +117,7 @@ export default function ShowReservedBookDetailPage({ params }) {
             Logout
           </button>
         </div>
-        <div>
+        <div className="overflow-y-auto">
           <center>
             <br></br>
             <div className="max-w-md mx-auto bg-white shadow-md rounded px-8 py-6">
@@ -166,7 +188,7 @@ export default function ShowReservedBookDetailPage({ params }) {
                     <span className="ml-2">Reject</span>
                   </label>
                 </div>
-
+                {remarks}
                 <button
                   type="submit"
                   className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"

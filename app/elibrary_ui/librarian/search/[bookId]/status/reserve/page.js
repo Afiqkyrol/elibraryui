@@ -195,7 +195,7 @@ export default function ShowReservationForm({ params }) {
                   disabled={isLocked}
                   className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
                 >
-                  Submits
+                  Submit
                 </button>
               </form>
             </div>

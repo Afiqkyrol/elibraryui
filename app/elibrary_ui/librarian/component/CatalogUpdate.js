@@ -67,32 +67,34 @@ const InputField = ({
         />
       </div>
     );
-  } else if (
-    tag === 14 &&
-    options &&
-    options.publisher &&
-    options.publisher.length > 0
-  ) {
-    return (
-      <div className="mb-4">
-        <label className="block text-gray-700 text-sm font-bold mb-2">
-          {label}
-        </label>
-        <select
-          value={value}
-          onChange={handleSelectChange}
-          className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-        >
-          <option>select...</option>
-          {options.publisher.map((option, index) => (
-            <option key={index} value={option.publisher_name}>
-              {option.publisher_name}
-            </option>
-          ))}
-        </select>
-      </div>
-    );
-  } else if (tag === 21 && options && options.type && options.type.length > 0) {
+  }
+  // else if (
+  //   tag === 14 &&
+  //   options &&
+  //   options.publisher &&
+  //   options.publisher.length > 0
+  // ) {
+  //   return (
+  //     <div className="mb-4">
+  //       <label className="block text-gray-700 text-sm font-bold mb-2">
+  //         {label}
+  //       </label>
+  //       <select
+  //         value={value}
+  //         onChange={handleSelectChange}
+  //         className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+  //       >
+  //         <option>select...</option>
+  //         {options.publisher.map((option, index) => (
+  //           <option key={index} value={option.publisher_name}>
+  //             {option.publisher_name}
+  //           </option>
+  //         ))}
+  //       </select>
+  //     </div>
+  //   );
+  // }
+  else if (tag === 21 && options && options.type && options.type.length > 0) {
     return (
       <div className="mb-4">
         <label className="block text-gray-700 text-sm font-bold mb-2">
@@ -425,7 +427,7 @@ const DynamicForm = ({
         <tbody>
           {inputData.map((item, index) => (
             <tr key={index}>
-              <td className="py-2 px-4">0{item.catreg_tag}</td>
+              <td className="py-2 px-4">{item.catreg_tag}</td>
 
               <td className="py-2 px-4">
                 <input

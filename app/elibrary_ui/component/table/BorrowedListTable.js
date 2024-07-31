@@ -38,7 +38,12 @@ export default function BorrowedListTable(props) {
             <tr key={index}>
               <td className="px-6 py-4 whitespace-no-wrap">{book.book_id}</td>
               <td className="px-6 py-4 whitespace-no-wrap">
-                {book.book_title}
+                <Link
+                  href={`/elibrary_ui/patron/borrowed/${book.history_id}/details`}
+                  className="text-blue-600 hover:underline"
+                >
+                  {book.book_title}
+                </Link>
               </td>
               <td className="px-6 py-4 whitespace-no-wrap">
                 {String(book.date_borrowed).substring(0, 10)}
