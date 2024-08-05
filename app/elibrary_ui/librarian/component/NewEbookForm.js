@@ -2,6 +2,8 @@
 
 import {
   saveNewCatalog,
+  saveRegEbook,
+  saveRegEbookWithoutImage,
   saveRegMonograph,
   saveRegMonographWithoutImage,
 } from "@/api/librarian/postApi";
@@ -230,6 +232,7 @@ const InputField = ({
       </div>
     );
   }
+
   // else if (tag === 12) {
   //   return (
   //     <div className="mb-4">
@@ -269,13 +272,14 @@ const InputField = ({
 const DynamicForm = ({ inputData, inputOptions, statusOptions }) => {
   const [isLoading, setIsLoading] = useState("");
   const [file, setFile] = useState(null);
+  const [pdf, setPdf] = useState(null);
   const [title, setTitle] = useState("");
   const [isbnNum, setIsbnNum] = useState("");
   const [description, setDescription] = useState("");
   const [bookStatus, setBookStatus] = useState(1);
   const [featured, setFeatured] = useState();
   const [publish, setPublish] = useState();
-  const [ebook, setEbook] = useState("no");
+  const [ebook, setEbook] = useState("yes");
   const router = useRouter();
   const [inputValues, setInputValues] = useState(
     Array(inputData.length).fill("")
@@ -328,8 +332,9 @@ const DynamicForm = ({ inputData, inputOptions, statusOptions }) => {
 
     try {
       if (file != null) {
-        response = await saveRegMonograph(
+        response = await saveRegEbook(
           file,
+          pdf,
           title,
           description,
           featured,
@@ -337,9 +342,9 @@ const DynamicForm = ({ inputData, inputOptions, statusOptions }) => {
           ebook,
           bookStatus
         );
-        console.log(response);
       } else {
-        response = await saveRegMonographWithoutImage(
+        response = await saveRegEbookWithoutImage(
+          pdf,
           title,
           description,
           featured,
@@ -348,7 +353,6 @@ const DynamicForm = ({ inputData, inputOptions, statusOptions }) => {
           bookStatus
         );
       }
-
       if (response) {
         for (let i = 0; i < submittedData.length; i++) {
           if (
@@ -376,7 +380,7 @@ const DynamicForm = ({ inputData, inputOptions, statusOptions }) => {
 
       localStorage.setItem("toast-message", "The monograph has been added");
 
-      router.push("/elibrary_ui/librarian/monograph");
+      router.push("/elibrary_ui/librarian/ebook");
     } catch (error) {
       console.log(error);
       setIsLoading(false);
@@ -471,6 +475,19 @@ const DynamicForm = ({ inputData, inputOptions, statusOptions }) => {
           ))}
         </tbody>
       </table>
+
+      <div className="mb-4">
+        <label className="block text-gray-700 text-sm font-bold mb-2">
+          Upload Ebook in pdf
+        </label>
+        <div>
+          <input
+            type="file"
+            onChange={(e) => setPdf(e.target.files[0])}
+            required
+          />
+        </div>
+      </div>
 
       <div className="mb-4">
         <label className="block text-gray-700 text-sm font-bold mb-2">
@@ -583,7 +600,7 @@ const DynamicForm = ({ inputData, inputOptions, statusOptions }) => {
 };
 
 // Usage
-const MyFormPage = ({ data, options, statusOption }) => {
+const NewEbookForm = ({ data, options, statusOption }) => {
   // Example array of objects
   const inputData = data;
 
@@ -596,4 +613,4 @@ const MyFormPage = ({ data, options, statusOption }) => {
   );
 };
 
-export default MyFormPage;
+export default NewEbookForm;

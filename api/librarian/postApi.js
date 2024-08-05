@@ -130,6 +130,44 @@ export async function saveRegMonograph(
   return response.data;
 }
 
+export async function saveRegEbook(
+  file,
+  pdf,
+  title,
+  description,
+  reg_featured,
+  reg_publish,
+  reg_ebook,
+  status
+) {
+  const librarian_id = localStorage.getItem("username");
+  const formData = new FormData();
+  formData.append("file", file);
+  formData.append("pdf", pdf);
+  formData.append("title", title);
+  formData.append("description", description);
+  formData.append("reg_featured", reg_featured);
+  formData.append("reg_publish", reg_publish);
+  formData.append("reg_ebook", reg_ebook);
+  formData.append("reg_by", librarian_id);
+  formData.append("status", status);
+
+  const token = localStorage.getItem("auth-token");
+
+  const response = await axiosInstance.post(
+    "/librarian/monograph-list/add",
+    formData,
+    {
+      headers: {
+        "Content-Type": "multipart/form-data",
+        Authorization: "Bearer " + token,
+      },
+    }
+  );
+
+  return response.data;
+}
+
 export async function saveNewCatalog(tag, mono_id, ind1, ind2, data) {
   const librarian_id = localStorage.getItem("user_id");
   const formData = new FormData();
@@ -234,6 +272,42 @@ export async function saveRegMonographWithoutImage(
 
   const response = await axiosInstance.post(
     "/librarian/monograph-list/add-without-image",
+    formData,
+    {
+      headers: {
+        "Content-Type": "multipart/form-data",
+        Authorization: "Bearer " + token,
+      },
+    }
+  );
+
+  return response.data;
+}
+
+export async function saveRegEbookWithoutImage(
+  pdf,
+  title,
+  description,
+  reg_featured,
+  reg_publish,
+  reg_ebook,
+  status
+) {
+  const librarian_id = localStorage.getItem("username");
+  const formData = new FormData();
+  formData.append("pdf", pdf);
+  formData.append("title", title);
+  formData.append("description", description);
+  formData.append("reg_featured", reg_featured);
+  formData.append("reg_publish", reg_publish);
+  formData.append("reg_ebook", reg_ebook);
+  formData.append("reg_by", librarian_id);
+  formData.append("status", status);
+
+  const token = localStorage.getItem("auth-token");
+
+  const response = await axiosInstance.post(
+    "/librarian/ebook-list/add-without-image",
     formData,
     {
       headers: {

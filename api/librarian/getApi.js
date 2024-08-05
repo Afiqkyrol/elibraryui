@@ -10,6 +10,16 @@ export async function fetchBookList() {
   return response.data;
 }
 
+export async function fetchEBookList() {
+  const token = localStorage.getItem("auth-token");
+  const response = await axiosInstance.get("/librarian/ebook-list-details", {
+    headers: {
+      Authorization: "Bearer " + token,
+    },
+  });
+  return response.data;
+}
+
 export async function fetchMonographAbout(reg_id) {
   const token = localStorage.getItem("auth-token");
   const response = await axiosInstance.get(`/librarian/book-list/${reg_id}`, {

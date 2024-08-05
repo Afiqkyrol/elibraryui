@@ -266,3 +266,66 @@ export async function updatePublisher(
 
   return response.data;
 }
+
+export async function updateRegEbook(
+  reg_id,
+  pdf,
+  file,
+  title,
+  description,
+  reg_featured,
+  reg_publish,
+  reg_ebook,
+  status
+) {
+  if (file) {
+    const formData = new FormData();
+    formData.append("file", file);
+    formData.append("pdf", pdf);
+    formData.append("title", title);
+    formData.append("description", description);
+    formData.append("reg_featured", reg_featured);
+    formData.append("reg_publish", reg_publish);
+    formData.append("reg_ebook", reg_ebook);
+    formData.append("status", status);
+
+    const token = localStorage.getItem("auth-token");
+
+    const response = await axiosInstance.put(
+      `/librarian/ebook-list/update/${reg_id}`,
+      formData,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          Authorization: "Bearer " + token,
+        },
+      }
+    );
+
+    return response.data;
+  } else {
+    const formData = new FormData();
+    formData.append("title", title);
+    formData.append("pdf", pdf);
+    formData.append("description", description);
+    formData.append("reg_featured", reg_featured);
+    formData.append("reg_publish", reg_publish);
+    formData.append("reg_ebook", reg_ebook);
+    formData.append("status", status);
+
+    const token = localStorage.getItem("auth-token");
+
+    const response = await axiosInstance.put(
+      `/librarian/ebook-list/update-without-image/${reg_id}`,
+      formData,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          Authorization: "Bearer " + token,
+        },
+      }
+    );
+
+    return response.data;
+  }
+}

@@ -1,13 +1,15 @@
 "use client";
 
+import { fetchLtMonoCat } from "@/api/librarian/getApi";
+import { saveNewCatalog, saveRegMonograph } from "@/api/librarian/postApi";
 import {
-  saveNewCatalog,
-  saveRegMonograph,
-  saveRegMonographWithoutImage,
-} from "@/api/librarian/postApi";
+  updateNewCatalog,
+  updateRegEbook,
+  updateRegMonograph,
+} from "@/api/librarian/putApi";
 import Loading from "@/app/elibrary_ui/loading";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -16,11 +18,12 @@ const InputField = ({
   label,
   value,
   onChange,
-  onChangeIsbn,
   onChangeTitle,
   onChangeDesc,
+  onChangeIsbn,
   tag,
   options,
+  currTitle,
 }) => {
   const handleSelectChange = (e) => {
     onChange(e.target.value);
@@ -51,6 +54,7 @@ const InputField = ({
     options.author &&
     options.author.length > 0
   ) {
+    onChangeTitle(value);
     return (
       <div className="mb-4">
         <label className="block text-gray-700 text-sm font-bold mb-2">
@@ -195,6 +199,7 @@ const InputField = ({
     options.author &&
     options.author.length > 0
   ) {
+    onChangeDesc(value);
     return (
       <div className="mb-4">
         <label className="block text-gray-700 text-sm font-bold mb-2">
@@ -212,6 +217,7 @@ const InputField = ({
       </div>
     );
   } else if (tag === 3) {
+    onChangeIsbn(value);
     return (
       <div className="mb-4">
         <label className="block text-gray-700 text-sm font-bold mb-2">
@@ -225,30 +231,27 @@ const InputField = ({
             onChangeIsbn(e.target.value);
             onChange(e.target.value);
           }}
+        />
+      </div>
+    );
+  } else if (tag === 12) {
+    return (
+      <div className="mb-4">
+        <label className="block text-gray-700 text-sm font-bold mb-2">
+          {label}
+        </label>
+        <input
+          className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          type="number"
+          value={value}
+          onChange={(e) => {
+            onChange(e.target.value);
+          }}
           required
         />
       </div>
     );
-  }
-  // else if (tag === 12) {
-  //   return (
-  //     <div className="mb-4">
-  //       <label className="block text-gray-700 text-sm font-bold mb-2">
-  //         {label}
-  //       </label>
-  //       <input
-  //         className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-  //         type="number"
-  //         value={value}
-  //         onChange={(e) => {
-  //           onChange(e.target.value);
-  //         }}
-  //         required
-  //       />
-  //     </div>
-  //   );
-  // }
-  else {
+  } else {
     return (
       <div className="mb-4">
         <label className="block text-gray-700 text-sm font-bold mb-2">
@@ -266,7 +269,13 @@ const InputField = ({
 };
 
 // Form component
-const DynamicForm = ({ inputData, inputOptions, statusOptions }) => {
+const DynamicForm = ({
+  inputData,
+  inputOptions,
+  monoId,
+  statusOptions,
+  ltMonoCats,
+}) => {
   const [isLoading, setIsLoading] = useState("");
   const [file, setFile] = useState(null);
   const [title, setTitle] = useState("");
@@ -275,7 +284,9 @@ const DynamicForm = ({ inputData, inputOptions, statusOptions }) => {
   const [bookStatus, setBookStatus] = useState(1);
   const [featured, setFeatured] = useState();
   const [publish, setPublish] = useState();
-  const [ebook, setEbook] = useState("no");
+  const [ebook, setEbook] = useState("yes");
+  const [pdf, setPdf] = useState(null);
+  const [ltMonoCatss, setLtMonoCatss] = useState(ltMonoCats);
   const router = useRouter();
   const [inputValues, setInputValues] = useState(
     Array(inputData.length).fill("")
@@ -286,6 +297,15 @@ const DynamicForm = ({ inputData, inputOptions, statusOptions }) => {
   const [ind2Values, setInd2Values] = useState(
     Array(inputData.length).fill("")
   );
+
+  const fetchData = async () => {
+    const newData = await fetchLtMonoCat();
+    setLtMonoCatss(newData);
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
 
   // Function to update input values
   const handleInputChange = (index, newValue) => {
@@ -318,69 +338,45 @@ const DynamicForm = ({ inputData, inputOptions, statusOptions }) => {
     setIsLoading(true);
     e.preventDefault();
     const submittedData = inputData.map((item, index) => ({
-      cataloging_tag: item.cataloging_tag,
-      value: inputValues[index],
-      cataloging_Ind1: ind1Values[index] || item.cataloging_Ind1, // Include default value for cataloging_Ind1
-      cataloging_Ind2: ind2Values[index] || item.cataloging_Ind2, // Include default value for cataloging_Ind2
+      cataloging_tag: item.catreg_tag,
+      value: inputValues[index] || item.catreg_data,
+      cataloging_Ind1: ind1Values[index] || item.catreg_ind1,
+      cataloging_Ind2: ind2Values[index] || item.catreg_ind2,
     }));
 
-    let response;
-
     try {
-      if (file != null) {
-        response = await saveRegMonograph(
-          file,
-          title,
-          description,
-          featured,
-          publish,
-          ebook,
-          bookStatus
-        );
-        console.log(response);
-      } else {
-        response = await saveRegMonographWithoutImage(
-          title,
-          description,
-          featured,
-          publish,
-          ebook,
-          bookStatus
-        );
-      }
+      const response = await updateRegEbook(
+        monoId,
+        pdf,
+        file,
+        title,
+        description,
+        featured,
+        publish,
+        ebook,
+        bookStatus
+      );
 
-      if (response) {
-        for (let i = 0; i < submittedData.length; i++) {
-          if (
-            submittedData[i].value == "select..." ||
-            submittedData[i].value == null ||
-            submittedData[i].value == ""
-          ) {
-            submittedData[i].value = "No Data";
-          }
-          if (
-            submittedData[i].value != "select..." &&
-            submittedData[i].value != null &&
-            submittedData[i].value != ""
-          ) {
-            saveNewCatalog(
-              submittedData[i].cataloging_tag,
-              response.reg_id,
-              submittedData[i].cataloging_Ind1,
-              submittedData[i].cataloging_Ind2,
-              submittedData[i].value
-            );
-          }
+      for (let i = 0; i < submittedData.length; i++) {
+        if (
+          submittedData[i].value != "select..." &&
+          submittedData[i].value != null &&
+          submittedData[i].value != ""
+        ) {
+          updateNewCatalog(
+            response.reg_id,
+            submittedData[i].cataloging_tag,
+            submittedData[i].cataloging_Ind1,
+            submittedData[i].cataloging_Ind2,
+            submittedData[i].value
+          );
         }
       }
 
-      localStorage.setItem("toast-message", "The monograph has been added");
-
-      router.push("/elibrary_ui/librarian/monograph");
+      localStorage.setItem("toast-message", "The monograph has been updated");
+      router.push("/elibrary_ui/librarian/ebook");
     } catch (error) {
-      console.log(error);
-      setIsLoading(false);
-      toast.error("Error!");
+      toast.error("fail");
     }
   };
 
@@ -437,13 +433,13 @@ const DynamicForm = ({ inputData, inputOptions, statusOptions }) => {
         <tbody>
           {inputData.map((item, index) => (
             <tr key={index}>
-              <td className="py-2 px-4">{item.cataloging_tag}</td>
+              <td className="py-2 px-4">{item.catreg_tag}</td>
 
               <td className="py-2 px-4">
                 <input
                   type="text"
                   className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                  value={ind1Values[index] || item.cataloging_Ind1} // Set default value to inputData.cataloging_Ind1
+                  value={ind1Values[index] || item.catreg_ind1} // Set default value to inputData.cataloging_Ind1
                   onChange={(e) => handleInd1Change(index, e.target.value)}
                 />
               </td>
@@ -451,15 +447,21 @@ const DynamicForm = ({ inputData, inputOptions, statusOptions }) => {
                 <input
                   type="text"
                   className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                  value={ind2Values[index] || item.cataloging_Ind2} // Set default value to inputData.cataloging_Ind2
+                  value={ind2Values[index] || item.catreg_ind2} // Set default value to inputData.cataloging_Ind2
                   onChange={(e) => handleInd2Change(index, e.target.value)}
                 />
               </td>
-              <td className="py-2 px-4">{item.cataloging_data}</td>
+              <td className="py-2 px-4">
+                {ltMonoCatss
+                  .filter((cat) => cat.cataloging_tag === item.catreg_tag)
+                  .map((filteredItem, index) => (
+                    <span key={index}>{filteredItem.cataloging_data}</span>
+                  ))}
+              </td>
               <td className="py-2 px-4">
                 <InputField
-                  tag={item.cataloging_tag}
-                  value={inputValues[index]}
+                  tag={item.catreg_tag}
+                  value={inputValues[index] || item.catreg_data}
                   options={inputOptions}
                   onChangeTitle={(e) => setTitle(e)}
                   onChangeDesc={(e) => setDescription(e)}
@@ -471,6 +473,19 @@ const DynamicForm = ({ inputData, inputOptions, statusOptions }) => {
           ))}
         </tbody>
       </table>
+
+      <div className="mb-4">
+        <label className="block text-gray-700 text-sm font-bold mb-2">
+          Upload Ebook in pdf
+        </label>
+        <div>
+          <input
+            type="file"
+            onChange={(e) => setPdf(e.target.files[0])}
+            required
+          />
+        </div>
+      </div>
 
       <div className="mb-4">
         <label className="block text-gray-700 text-sm font-bold mb-2">
@@ -544,33 +559,6 @@ const DynamicForm = ({ inputData, inputOptions, statusOptions }) => {
           <span className="ml-2">No</span>
         </label>
       </div>
-      {/* <div className="mb-4">
-        <span className="block text-gray-700 text-sm font-bold mb-2">
-          Ebook:
-        </span>
-        <label className="inline-flex items-center mr-4">
-          <input
-            type="radio"
-            className="form-radio text-blue-500"
-            name="ebook"
-            value="yes"
-            onChange={() => setEbook("yes")}
-            required
-          />
-          <span className="ml-2">Yes</span>
-        </label>
-        <label className="inline-flex items-center">
-          <input
-            type="radio"
-            className="form-radio text-red-500"
-            name="ebook"
-            value="no"
-            onChange={() => setEbook("no")}
-            required
-          />
-          <span className="ml-2">No</span>
-        </label>
-      </div> */}
 
       <button
         type="submit"
@@ -583,17 +571,24 @@ const DynamicForm = ({ inputData, inputOptions, statusOptions }) => {
 };
 
 // Usage
-const MyFormPage = ({ data, options, statusOption }) => {
+const UpdateEbookForm = ({
+  data,
+  options,
+  reg_id,
+  statusOption,
+  ltMonoCat,
+}) => {
   // Example array of objects
   const inputData = data;
-
   return (
     <DynamicForm
       inputData={inputData}
       inputOptions={options}
+      monoId={reg_id}
+      ltMonoCats={ltMonoCat}
       statusOptions={statusOption}
     />
   );
 };
 
-export default MyFormPage;
+export default UpdateEbookForm;

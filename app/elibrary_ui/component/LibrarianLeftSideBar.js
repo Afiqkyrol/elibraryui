@@ -25,6 +25,12 @@ export default function LibrarianLeftSideBar() {
           List of Monograph
         </Link>
         <Link
+          href="/elibrary_ui/librarian/ebook"
+          className="px-6 py-3 text-gray-300 hover:bg-gray-700"
+        >
+          List of Ebook
+        </Link>
+        <Link
           href="/elibrary_ui/librarian/reservation"
           className="px-6 py-3 text-gray-300 hover:bg-gray-700"
         >
