@@ -135,10 +135,10 @@ export default function ShowTypeUpdatePage({ params }) {
                 </label>
                 <select onChange={(e) => setTypeActive(e.target.value)}>
                   <option value={0} selected={typeActive == "0"}>
-                    0
+                    Inactive
                   </option>
                   <option value={1} selected={typeActive == "1"}>
-                    1
+                    Active
                   </option>
                 </select>
               </div>

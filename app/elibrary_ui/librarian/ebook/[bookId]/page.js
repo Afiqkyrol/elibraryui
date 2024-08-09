@@ -8,6 +8,7 @@ import { useEffect, useState } from "react";
 
 export default function ShowEbookDetails({ params }) {
   const [monographDetails, setMonographDetails] = useState([]);
+  const [downloadCount, setDownloadCount] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -19,6 +20,14 @@ export default function ShowEbookDetails({ params }) {
     setIsLoading(false);
   }, []);
 
+  useEffect(() => {
+    if (monographDetails.dtMonographRegistration != null) {
+      setDownloadCount(
+        monographDetails.dtMonographRegistration.reg_download_count
+      );
+    }
+  }, [monographDetails]);
+
   function logoutHandler() {
     setIsLoading(true);
     localStorage.clear();
@@ -28,6 +37,7 @@ export default function ShowEbookDetails({ params }) {
   if (isLoading) {
     return <Loading />;
   }
+  console.log(monographDetails);
 
   return (
     <div className="flex h-screen">
@@ -92,9 +102,9 @@ export default function ShowEbookDetails({ params }) {
                   </div>
                   <div class="mb-4">
                     <label class="block text-sm font-medium text-gray-700">
-                      Copy:
+                      Downloads count:
                     </label>
-                    <p class="text-gray-900">0{monographDetails.copy}</p>
+                    <p class="text-gray-900">{downloadCount}</p>
                   </div>
                   <div class="mb-4">
                     <label class="block text-sm font-medium text-gray-700">

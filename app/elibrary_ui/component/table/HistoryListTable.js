@@ -1,56 +1,91 @@
+import { useState } from "react";
 import Link from "next/link";
 
-export default function HistoryListTable(props) {
+export default function HistoryListTable({ data }) {
+  const [currentPage, setCurrentPage] = useState(0);
+  const itemsPerPage = 8;
+
+  const offset = currentPage * itemsPerPage;
+  const currentItems = data.slice(offset, offset + itemsPerPage);
+  const pageCount = Math.ceil(data.length / itemsPerPage);
+
+  const handlePrevPage = () => {
+    setCurrentPage((prev) => Math.max(prev - 1, 0));
+  };
+
+  const handleNextPage = () => {
+    setCurrentPage((prev) => Math.min(prev + 1, pageCount - 1));
+  };
+
   return (
-    <div class="container mx-auto" style={{ width: "95%" }}>
-      <table class="min-w-full">
+    <div className="container mx-auto" style={{ width: "95%" }}>
+      <table className="min-w-full">
         <thead>
           <tr>
-            <th class="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+            <th className="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
               Book ID
             </th>
-            <th class="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+            <th className="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
               Title
             </th>
-            <th class="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+            <th className="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
               Date Borrowed
             </th>
-            <th class="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+            <th className="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
               Est Date return
             </th>
-            <th class="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+            <th className="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
               Act Return Date
             </th>
           </tr>
         </thead>
-        <tbody class="bg-white divide-y divide-gray-200">
-          {props.data.map((book, index) => (
+        <tbody className="bg-white divide-y divide-gray-200">
+          {currentItems.map((book, index) => (
             <tr key={index}>
-              <td class="px-6 py-4 whitespace-no-wrap">{book.book_id}</td>
-              <td class="px-6 py-4 whitespace-no-wrap">
+              <td className="px-6 py-4 whitespace-no-wrap">{book.book_id}</td>
+              <td className="px-6 py-4 whitespace-no-wrap">
                 <Link
                   href={`/elibrary_ui/patron/search/${book.book_id}`}
-                  class="text-blue-600 hover:underline"
+                  className="text-blue-600 hover:underline"
                   style={{ color: "blue" }}
                 >
                   {book.book_title}
                 </Link>
               </td>
-              <td class="px-6 py-4 whitespace-no-wrap">
+              <td className="px-6 py-4 whitespace-no-wrap">
                 {String(book.date_borrowed).substring(0, 10)}
               </td>
-              <td class="px-6 py-4 whitespace-no-wrap">
+              <td className="px-6 py-4 whitespace-no-wrap">
                 {book.extend_date != null
                   ? String(book.extend_date).substring(0, 10)
                   : String(book.est_date_to_return).substring(0, 10)}
               </td>
-              <td class="px-6 py-4 whitespace-no-wrap">
+              <td className="px-6 py-4 whitespace-no-wrap">
                 {String(book.act_date_return).substring(0, 10)}
               </td>
             </tr>
           ))}
         </tbody>
       </table>
+      <div className="flex justify-between mt-4">
+        <button
+          className="px-4 py-2 bg-gray-200 rounded hover:bg-gray-300"
+          onClick={handlePrevPage}
+          disabled={currentPage === 0}
+        >
+          Previous
+        </button>
+        <span className="text-gray-700">
+          Page {currentPage + 1} of {pageCount}
+        </span>
+        <button
+          className="px-4 py-2 bg-gray-200 rounded hover:bg-gray-300"
+          onClick={handleNextPage}
+          disabled={currentPage === pageCount - 1}
+        >
+          Next
+        </button>
+      </div>
     </div>
   );
 }

@@ -1,17 +1,19 @@
 "use client";
 
-import { fetchBookList, fetchEBookList } from "@/api/librarian/getApi";
+import { fetchEBookList } from "@/api/librarian/getApi";
 import LibrarianLeftSideBar from "@/app/elibrary_ui/component/LibrarianLeftSideBar";
 import Loading from "@/app/elibrary_ui/loading";
 import { useEffect, useState } from "react";
-import MonographListTable from "../component/MonographListTable";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import EbookListTable from "../component/EbookListTable";
+import { fetchSearchEBookResults } from "@/api/librarian/postApi";
 
 export default function EbookListPage() {
   const [ebookList, setEbookList] = useState([]);
   const [completeEbookList, setCompleteEbookList] = useState([]);
+  const [category, setCategory] = useState("title");
+  const [title, setTitle] = useState();
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -68,6 +70,21 @@ export default function EbookListPage() {
     return <Loading />;
   }
 
+  async function resetFilterHandler() {
+    setIsLoading(true);
+    setEbookList(await fetchEBookList());
+    setIsLoading(false);
+  }
+
+  async function searchHandler(e) {
+    // setIsLoading(true);
+    e.preventDefault();
+    console.log(category);
+    console.log(title);
+    setEbookList(await fetchSearchEBookResults(category, title));
+    setIsLoading(false);
+  }
+
   return (
     <div className="flex h-screen">
       <LibrarianLeftSideBar />
@@ -85,6 +102,42 @@ export default function EbookListPage() {
             Logout
           </button>
         </div>
+        <br></br>
+        <form
+          className="flex items-center justify-center space-x-4"
+          onSubmit={searchHandler}
+        >
+          <select
+            name="category"
+            id="category"
+            onChange={(e) => setCategory(e.target.value)}
+          >
+            <option value="title">Title</option>
+            <option value="accession_no">Accession No</option>
+            <option value="author">Author</option>
+            <option value="publisher">Publisher</option>
+          </select>
+          <input
+            name="title"
+            type="text"
+            placeholder="Search here..."
+            className="border border-gray-400 rounded py-2 px-4"
+            onChange={(e) => setTitle(e.target.value)}
+            required
+          />
+          <button
+            type="submit"
+            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+          >
+            Search
+          </button>
+          <button
+            className="bg-yellow-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+            onClick={resetFilterHandler}
+          >
+            Clear
+          </button>
+        </form>
         <div className="overflow-y-auto">
           <center>
             <br></br>

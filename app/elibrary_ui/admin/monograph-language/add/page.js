@@ -94,8 +94,8 @@ export default function ShowReservationList() {
                   Language Active
                 </label>
                 <select onChange={(e) => setLangActive(e.target.value)}>
-                  <option value={0}>0</option>
-                  <option value={1}>1</option>
+                  <option value={0}>Inctive</option>
+                  <option value={1}>Active</option>
                 </select>
               </div>
               <button

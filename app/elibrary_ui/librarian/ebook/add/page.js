@@ -36,7 +36,7 @@ export default function ShowAddEbookPages() {
   if (isLoading) {
     return <Loading />;
   }
-
+  console.log(catalog);
   return (
     <div className="flex h-screen">
       <LibrarianLeftSideBar />

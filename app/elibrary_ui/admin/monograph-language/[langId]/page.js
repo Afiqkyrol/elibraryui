@@ -136,10 +136,10 @@ export default function ShowLanguageUpdatePage({ params }) {
                 </label>
                 <select onChange={(e) => setLangActive(e.target.value)}>
                   <option value={0} selected={langActive == "0"}>
-                    0
+                    Inactive
                   </option>
                   <option value={1} selected={langActive == "1"}>
-                    1
+                    Active
                   </option>
                 </select>
               </div>

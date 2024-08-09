@@ -212,7 +212,7 @@ const InputField = ({
         />
       </div>
     );
-  } else if (tag === 3) {
+  } else if (tag === 20) {
     onChangeIsbn(value);
     return (
       <div className="mb-4">
@@ -333,6 +333,7 @@ const DynamicForm = ({
     setIsLoading(true);
     e.preventDefault();
     const submittedData = inputData.map((item, index) => ({
+      cataloging_id: item.catreg_cataloging_id,
       cataloging_tag: item.catreg_tag,
       value: inputValues[index] || item.catreg_data,
       cataloging_Ind1: ind1Values[index] || item.catreg_ind1,

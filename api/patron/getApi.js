@@ -61,6 +61,16 @@ export async function fetchBookList() {
   return response.data;
 }
 
+export async function fetchEBookList() {
+  const token = localStorage.getItem("auth-token");
+  const response = await axiosInstance.get("/patron/ebook-list-details", {
+    headers: {
+      Authorization: "Bearer " + token,
+    },
+  });
+  return response.data;
+}
+
 export async function fetchStatusBook(book_id) {
   const token = localStorage.getItem("auth-token");
   const response = await axiosInstance.get(`/patron/status-book/${book_id}`, {
@@ -178,3 +188,26 @@ export async function fetchMinDate(book_id) {
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////
+
+export async function fetchBookListV2() {
+  const token = localStorage.getItem("auth-token");
+  const response = await axiosInstance.get("/patron/book-list-details-v2", {
+    headers: {
+      Authorization: "Bearer " + token,
+    },
+  });
+  return response.data;
+}
+
+export async function fetchBookCopyListV2(isbn) {
+  const token = localStorage.getItem("auth-token");
+  const response = await axiosInstance.get(
+    `/patron/book-list-details-v2/${isbn}`,
+    {
+      headers: {
+        Authorization: "Bearer " + token,
+      },
+    }
+  );
+  return response.data;
+}

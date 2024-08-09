@@ -134,10 +134,10 @@ export default function ShowSubjectUpdatePage({ params }) {
                 </label>
                 <select onChange={(e) => setSubjectActive(e.target.value)}>
                   <option value={0} selected={subjectActive == "0"}>
-                    0
+                    Inactive
                   </option>
                   <option value={1} selected={subjectActive == "1"}>
-                    1
+                    Active
                   </option>
                 </select>
               </div>

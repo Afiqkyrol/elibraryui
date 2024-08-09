@@ -92,8 +92,8 @@ export default function ShowReservationList() {
                   Subject Active
                 </label>
                 <select onChange={(e) => setSubjectActive(e.target.value)}>
-                  <option value={0}>0</option>
-                  <option value={1}>1</option>
+                  <option value={0}>Inactive</option>
+                  <option value={1}>Active</option>
                 </select>
               </div>
               <button

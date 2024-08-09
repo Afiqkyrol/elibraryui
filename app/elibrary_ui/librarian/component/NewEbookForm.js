@@ -213,7 +213,7 @@ const InputField = ({
         />
       </div>
     );
-  } else if (tag === 3) {
+  } else if (tag === 20) {
     return (
       <div className="mb-4">
         <label className="block text-gray-700 text-sm font-bold mb-2">
@@ -323,6 +323,7 @@ const DynamicForm = ({ inputData, inputOptions, statusOptions }) => {
     e.preventDefault();
     const submittedData = inputData.map((item, index) => ({
       cataloging_tag: item.cataloging_tag,
+      cataloging_id: item.cataloging_id,
       value: inputValues[index],
       cataloging_Ind1: ind1Values[index] || item.cataloging_Ind1, // Include default value for cataloging_Ind1
       cataloging_Ind2: ind2Values[index] || item.cataloging_Ind2, // Include default value for cataloging_Ind2
@@ -369,6 +370,7 @@ const DynamicForm = ({ inputData, inputOptions, statusOptions }) => {
           ) {
             saveNewCatalog(
               submittedData[i].cataloging_tag,
+              submittedData[i].cataloging_id,
               response.reg_id,
               submittedData[i].cataloging_Ind1,
               submittedData[i].cataloging_Ind2,

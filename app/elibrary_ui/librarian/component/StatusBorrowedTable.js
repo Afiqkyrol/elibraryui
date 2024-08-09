@@ -1,8 +1,24 @@
+import { useState } from "react";
 import Link from "next/link";
 
-export default function StatusBorrowedTable(props) {
+export default function StatusBorrowedTable({ data }) {
+  const [currentPage, setCurrentPage] = useState(0);
+  const itemsPerPage = 8;
+
+  const offset = currentPage * itemsPerPage;
+  const currentItems = data.slice(offset, offset + itemsPerPage);
+  const pageCount = Math.ceil(data.length / itemsPerPage);
+
+  const handlePrevPage = () => {
+    setCurrentPage((prev) => Math.max(prev - 1, 0));
+  };
+
+  const handleNextPage = () => {
+    setCurrentPage((prev) => Math.min(prev + 1, pageCount - 1));
+  };
+
   let tableContent;
-  if (props.data.length === 0) {
+  if (currentItems.length === 0) {
     tableContent = (
       <tbody className="bg-white divide-y divide-gray-200">
         <tr>
@@ -16,38 +32,33 @@ export default function StatusBorrowedTable(props) {
     );
   } else {
     tableContent = (
-      <tbody class="bg-white divide-y divide-gray-200">
-        {props.data.map((book, index) => (
+      <tbody className="bg-white divide-y divide-gray-200">
+        {currentItems.map((book, index) => (
           <tr key={index}>
-            <td class="px-6 py-4 whitespace-no-wrap">{book.book_id}</td>
-            <td class="px-6 py-4 whitespace-no-wrap">
-              <Link
-                href="#"
-                className="text-blue-600 hover:underline"
-                style={{ color: "blue" }}
-              >
-                {book.book_title}
-              </Link>
+            <td className="px-6 py-4 whitespace-no-wrap">{index + 1}</td>
+
+            <td className="px-6 py-4 whitespace-no-wrap">
+              {book.accession_no}
             </td>
-            <td class="px-6 py-4 whitespace-no-wrap">
+            <td className="px-6 py-4 whitespace-no-wrap">{book.book_title}</td>
+            <td className="px-6 py-4 whitespace-no-wrap">
               <Link
                 href={`/elibrary_ui/librarian/user/${book.borrower_id}`}
                 className="text-blue-600 hover:underline"
-                style={{ color: "blue" }}
               >
                 {book.borrower}
               </Link>
             </td>
-            <td class="px-6 py-4 whitespace-no-wrap">{book.copy}</td>
-            <td class="px-6 py-4 whitespace-no-wrap">
+            <td className="px-6 py-4 whitespace-no-wrap">{book.copy}</td>
+            <td className="px-6 py-4 whitespace-no-wrap">
               {book.status_extend === "approved"
                 ? String(book.extend_date).substring(0, 10)
                 : String(book.est_date_to_return).substring(0, 10)}
             </td>
-            <td class="px-6 py-4 whitespace-no-wrap">
+            <td className="px-6 py-4 whitespace-no-wrap">
               {String(book.act_date_return).substring(0, 10)}
             </td>
-            <td class="px-6 py-4 whitespace-no-wrap">{book.status_book}</td>
+            <td className="px-6 py-4 whitespace-no-wrap">{book.status_book}</td>
             <td className="px-6 py-4 whitespace-no-wrap">
               {book.status_book === "with user" ? (
                 <Link href={`/elibrary_ui/librarian/return/${book.history_id}`}>
@@ -76,39 +87,64 @@ export default function StatusBorrowedTable(props) {
       </tbody>
     );
   }
+
   return (
-    <div class="container mx-auto" style={{ width: "95%" }}>
-      <table class="min-w-full">
+    <div className="container mx-auto" style={{ width: "95%" }}>
+      <table className="min-w-full">
         <thead>
           <tr>
-            <th class="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
-              Book ID
+            <th className="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+              No
             </th>
-            <th class="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+            <th className="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+              Accession No
+            </th>
+            <th className="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
               Title
             </th>
-            <th class="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+            <th className="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
               Borrower
             </th>
-            <th class="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+            <th className="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
               Copy
             </th>
-            <th class="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+            <th className="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
               Return Date
             </th>
-            <th class="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+            <th className="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
               Act Return Date
             </th>
-            <th class="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+            <th className="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
               Status
             </th>
-            <th class="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+            <th className="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
               Action
             </th>
           </tr>
         </thead>
         {tableContent}
       </table>
+      {data.length > 0 && (
+        <div className="flex justify-between mt-4">
+          <button
+            className="px-4 py-2 bg-gray-200 rounded hover:bg-gray-300"
+            onClick={handlePrevPage}
+            disabled={currentPage === 0}
+          >
+            Previous
+          </button>
+          <span className="text-gray-700">
+            Page {currentPage + 1} of {pageCount}
+          </span>
+          <button
+            className="px-4 py-2 bg-gray-200 rounded hover:bg-gray-300"
+            onClick={handleNextPage}
+            disabled={currentPage === pageCount - 1}
+          >
+            Next
+          </button>
+        </div>
+      )}
     </div>
   );
 }

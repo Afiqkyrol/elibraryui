@@ -180,9 +180,10 @@ export async function updateRegMonograph(
   }
 }
 
-export async function updateNewCatalog(mono_id, tag, ind1, ind2, data) {
+export async function updateNewCatalog(cat_id, mono_id, tag, ind1, ind2, data) {
   const librarian_id = localStorage.getItem("user_id");
   const formData = new FormData();
+  formData.append("cat_id", cat_id);
   formData.append("mono_id", mono_id);
   formData.append("tag", tag);
   formData.append("ind1", ind1);

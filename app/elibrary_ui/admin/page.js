@@ -7,6 +7,7 @@ import {
   fetchApprovedUserList,
   fetchNotApprovedUserList,
 } from "@/api/admin/getApi";
+import Link from "next/link";
 
 export default function AdminDashboardPage() {
   const [isLoading, setIsLoading] = useState(true);
@@ -54,22 +55,65 @@ export default function AdminDashboardPage() {
         <div className="flex-1 overflow-y-auto p-6">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             <div className="bg-white rounded-lg shadow-md p-6 cursor-pointer">
-              <h2 className="text-lg font-semibold mb-2">
-                {approvedCount.length + newUserCount.length}
-              </h2>
-              <p>All User</p>
+              <Link href={"/elibrary_ui/admin/monograph-type"}>
+                <h2 className="text-lg font-semibold mb-2">Monograph Type</h2>
+                <p></p>
+              </Link>
+            </div>
+
+            <div className="bg-white rounded-lg shadow-md p-6 cursor-pointer">
+              <Link href={"/elibrary_ui/admin/monograph-subject"}>
+                <h2 className="text-lg font-semibold mb-2">
+                  Monograph Subject
+                </h2>
+                <p></p>
+              </Link>
             </div>
             <div className="bg-white rounded-lg shadow-md p-6 cursor-pointer">
-              <h2 className="text-lg font-semibold mb-2">
-                {approvedCount.length}
-              </h2>
-              <p>Approved User</p>
+              <Link href={"/elibrary_ui/admin/monograph-language"}>
+                <h2 className="text-lg font-semibold mb-2">
+                  Monograph Language
+                </h2>
+                <p></p>
+              </Link>
             </div>
             <div className="bg-white rounded-lg shadow-md p-6 cursor-pointer">
-              <h2 className="text-lg font-semibold mb-2">
-                {newUserCount.length}
-              </h2>
-              <p>New User</p>
+              <Link href={"/elibrary_ui/admin/monograph-status"}>
+                <h2 className="text-lg font-semibold mb-2">Monograph Status</h2>
+                <p></p>
+              </Link>
+            </div>
+            <div className="bg-white rounded-lg shadow-md p-6 cursor-pointer">
+              <Link href={"/elibrary_ui/admin/monograph-book-status"}>
+                <h2 className="text-lg font-semibold mb-2">
+                  Monograph Book Status
+                </h2>
+                <p></p>
+              </Link>
+            </div>
+            <div className="bg-white rounded-lg shadow-md p-6 cursor-pointer">
+              <Link href={"/elibrary_ui/admin/monograph-borrow-status"}>
+                <h2 className="text-lg font-semibold mb-2">
+                  Monograph Borrow Status
+                </h2>
+                <p></p>
+              </Link>
+            </div>
+            <div className="bg-white rounded-lg shadow-md p-6 cursor-pointer">
+              <Link href={"/elibrary_ui/admin/monograph-location"}>
+                <h2 className="text-lg font-semibold mb-2">
+                  Monograph Location
+                </h2>
+                <p></p>
+              </Link>
+            </div>
+            <div className="bg-white rounded-lg shadow-md p-6 cursor-pointer">
+              <Link href={"/elibrary_ui/admin/monograph-cataloging"}>
+                <h2 className="text-lg font-semibold mb-2">
+                  Monograph Cataloging
+                </h2>
+                <p></p>
+              </Link>
             </div>
           </div>
         </div>

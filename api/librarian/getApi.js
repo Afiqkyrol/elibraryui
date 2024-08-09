@@ -10,6 +10,29 @@ export async function fetchBookList() {
   return response.data;
 }
 
+export async function fetchBookListV2() {
+  const token = localStorage.getItem("auth-token");
+  const response = await axiosInstance.get("/librarian/book-list-details-v2", {
+    headers: {
+      Authorization: "Bearer " + token,
+    },
+  });
+  return response.data;
+}
+
+export async function fetchBookCopyListV2(isbn) {
+  const token = localStorage.getItem("auth-token");
+  const response = await axiosInstance.get(
+    `/librarian/book-list-details-v2/${isbn}`,
+    {
+      headers: {
+        Authorization: "Bearer " + token,
+      },
+    }
+  );
+  return response.data;
+}
+
 export async function fetchEBookList() {
   const token = localStorage.getItem("auth-token");
   const response = await axiosInstance.get("/librarian/ebook-list-details", {
@@ -90,6 +113,19 @@ export async function fetchReservationList() {
   return response.data;
 }
 
+export async function fetchReservationListSearch(acc_number) {
+  const token = localStorage.getItem("auth-token");
+  const response = await axiosInstance.get(
+    `/librarian/reservation-list/accession-no/${acc_number}`,
+    {
+      headers: {
+        Authorization: "Bearer " + token,
+      },
+    }
+  );
+  return response.data;
+}
+
 export async function fetchReservedBookDetails(reserve_id) {
   const token = localStorage.getItem("auth-token");
   const response = await axiosInstance.get(
@@ -133,6 +169,19 @@ export async function fetchReturnList() {
       Authorization: "Bearer " + token,
     },
   });
+  return response.data;
+}
+
+export async function fetchReturnListSearch(acc_number) {
+  const token = localStorage.getItem("auth-token");
+  const response = await axiosInstance.get(
+    `/librarian/return-list/accession-no/${acc_number}`,
+    {
+      headers: {
+        Authorization: "Bearer " + token,
+      },
+    }
+  );
   return response.data;
 }
 

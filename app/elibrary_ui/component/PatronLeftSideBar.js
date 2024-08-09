@@ -13,10 +13,16 @@ export default function PatronLeftSideBar() {
           Dashboard
         </Link>
         <Link
-          href="/elibrary_ui/patron/search"
+          href="/elibrary_ui/patron/search/mono"
           className="px-6 py-3 text-gray-300 hover:bg-gray-700"
         >
-          Search
+          Search Monograph
+        </Link>
+        <Link
+          href="/elibrary_ui/patron/search-ebook"
+          className="px-6 py-3 text-gray-300 hover:bg-gray-700"
+        >
+          Search Ebook
         </Link>
         <Link
           href="/elibrary_ui/patron/borrowed"

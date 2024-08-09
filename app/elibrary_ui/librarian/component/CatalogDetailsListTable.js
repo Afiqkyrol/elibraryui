@@ -63,9 +63,7 @@ export default function CatalogDetailsListTable({
                   {book.cataloging_data}
                 </td>
                 <td className="px-6 py-4 whitespace-no-wrap">
-                  <Link href={`#`} className="text-blue-600 hover:underline">
-                    {data.catalog[index].catreg_data}
-                  </Link>
+                  {data.catalog[index].catreg_data}
                 </td>
               </tr>
             ))}

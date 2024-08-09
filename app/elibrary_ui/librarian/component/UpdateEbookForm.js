@@ -216,7 +216,7 @@ const InputField = ({
         />
       </div>
     );
-  } else if (tag === 3) {
+  } else if (tag === 20) {
     onChangeIsbn(value);
     return (
       <div className="mb-4">

@@ -22,6 +22,49 @@ export async function fetchSearchBookResults(search_by, title, monograph_type) {
   return response.data;
 }
 
+export async function fetchSearchBookResultsV2(category, title) {
+  const formData = new FormData();
+  formData.append("category", category);
+  formData.append("title", title);
+
+  const token = localStorage.getItem("auth-token");
+
+  const response = await axiosInstance.post(
+    "/librarian/book-list/search-books-v2",
+    formData,
+    {
+      headers: {
+        "Content-Type": "multipart/form-data",
+        Authorization: "Bearer " + token,
+      },
+    }
+  );
+
+  return response.data;
+}
+
+export async function fetchSearchEBookResults(category, title) {
+  const formData = new FormData();
+  formData.append("category", category);
+  formData.append("title", title);
+  formData.append("monograph_type", "test");
+
+  const token = localStorage.getItem("auth-token");
+
+  const response = await axiosInstance.post(
+    "/librarian/ebook-list-details/search-ebook",
+    formData,
+    {
+      headers: {
+        "Content-Type": "multipart/form-data",
+        Authorization: "Bearer " + token,
+      },
+    }
+  );
+
+  return response.data;
+}
+
 export async function saveBookReservation(book_id, user_id, booking_date) {
   const formData = new FormData();
   formData.append("book_id", book_id);
@@ -168,10 +211,11 @@ export async function saveRegEbook(
   return response.data;
 }
 
-export async function saveNewCatalog(tag, mono_id, ind1, ind2, data) {
+export async function saveNewCatalog(tag, cat_id, mono_id, ind1, ind2, data) {
   const librarian_id = localStorage.getItem("user_id");
   const formData = new FormData();
   formData.append("tag", tag);
+  formData.append("cat_id", cat_id);
   formData.append("mono_id", mono_id);
   formData.append("ind1", ind1);
   formData.append("ind2", ind2);

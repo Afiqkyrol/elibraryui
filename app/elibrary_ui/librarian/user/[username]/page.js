@@ -4,7 +4,7 @@ import { fetchUserById } from "@/api/librarian/getApi";
 import LibrarianLeftSideBar from "@/app/elibrary_ui/component/LibrarianLeftSideBar";
 import { useEffect, useState } from "react";
 
-export default function userDetails({ params }) {
+export default function UserDetails({ params }) {
   const [user, setUser] = useState("");
   useEffect(() => {
     async function getUserDetails() {

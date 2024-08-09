@@ -43,3 +43,46 @@ export async function saveBookReservation(book_id, user_id, booking_date) {
 
   return response.data;
 }
+
+export async function fetchSearchBookResultsV2(category, title) {
+  const formData = new FormData();
+  formData.append("category", category);
+  formData.append("title", title);
+
+  const token = localStorage.getItem("auth-token");
+
+  const response = await axiosInstance.post(
+    "/patron/book-list/search-books-v2",
+    formData,
+    {
+      headers: {
+        "Content-Type": "multipart/form-data",
+        Authorization: "Bearer " + token,
+      },
+    }
+  );
+
+  return response.data;
+}
+
+export async function fetchSearchEBookResults(category, title) {
+  const formData = new FormData();
+  formData.append("category", category);
+  formData.append("title", title);
+  formData.append("monograph_type", "test");
+
+  const token = localStorage.getItem("auth-token");
+
+  const response = await axiosInstance.post(
+    "/patron/ebook-list-details/search-ebook",
+    formData,
+    {
+      headers: {
+        "Content-Type": "multipart/form-data",
+        Authorization: "Bearer " + token,
+      },
+    }
+  );
+
+  return response.data;
+}
