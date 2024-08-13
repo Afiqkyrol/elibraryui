@@ -401,7 +401,7 @@ const DynamicForm = ({ inputData, inputOptions, statusOptions }) => {
         src={
           "https://barcode.tec-it.com/barcode.ashx?data=" +
           isbnNum +
-          "&code=ISBN13&translate-esc=on"
+          "&code=Code128&translate-esc=on"
         }
       />
       <table className="w-full">

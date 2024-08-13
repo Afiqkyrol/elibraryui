@@ -79,9 +79,9 @@ export default function ShowMonographAboutPage({ params }) {
             <div style={{ height: "100%", overflowY: "auto" }}>
               <div class="mb-4">
                 <label class="block text-sm font-medium text-gray-700">
-                  Book ID:
+                  Accession Number:
                 </label>
-                <p class="text-gray-900">{monographAbout.book_id}</p>
+                <p class="text-gray-900">{monographAbout.accession_no}</p>
               </div>
               <div class="mb-4">
                 <label class="block text-sm font-medium text-gray-700">

@@ -280,7 +280,7 @@ const DynamicForm = ({
   const [bookStatus, setBookStatus] = useState(1);
   const [featured, setFeatured] = useState();
   const [publish, setPublish] = useState();
-  const [ebook, setEbook] = useState();
+  const [ebook, setEbook] = useState("no");
   const [ltMonoCatss, setLtMonoCatss] = useState(ltMonoCats);
   const router = useRouter();
   const [inputValues, setInputValues] = useState(
@@ -390,7 +390,7 @@ const DynamicForm = ({
         src={
           "https://barcode.tec-it.com/barcode.ashx?data=" +
           isbnNum +
-          "&code=ISBN13&translate-esc=on"
+          "&code=Code128&translate-esc=on"
         }
       />
       <table className="w-full">
@@ -541,7 +541,7 @@ const DynamicForm = ({
           <span className="ml-2">No</span>
         </label>
       </div>
-      <div className="mb-4">
+      {/* <div className="mb-4">
         <span className="block text-gray-700 text-sm font-bold mb-2">
           Ebook:
         </span>
@@ -567,7 +567,7 @@ const DynamicForm = ({
           />
           <span className="ml-2">No</span>
         </label>
-      </div>
+      </div> */}
 
       <button
         type="submit"

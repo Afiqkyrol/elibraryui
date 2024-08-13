@@ -15,7 +15,7 @@ export default function CatalogDetailsListTable({
     data.catalog.length > 0
   ) {
     for (let i = 0; i < data.catalog.length; i++) {
-      if (data.catalog[i].catreg_tag == 3) {
+      if (data.catalog[i].catreg_cataloging_id == 20) {
         // setIsbnNum(data.cataloging[i].)
         // console.log(data.cataloging[i]);
         setIsbnNum(data.catalog[i].catreg_data);
@@ -32,7 +32,7 @@ export default function CatalogDetailsListTable({
           src={
             "https://barcode.tec-it.com/barcode.ashx?data=" +
             9781234567897 +
-            "&code=ISBN13&translate-esc=on"
+            "&code=Code128&translate-esc=on"
           }
         />
         {/* <Link href={barcodePath + isbnNum} target="_blank">

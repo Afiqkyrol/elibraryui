@@ -198,7 +198,7 @@ export async function saveRegEbook(
   const token = localStorage.getItem("auth-token");
 
   const response = await axiosInstance.post(
-    "/librarian/monograph-list/add",
+    "/librarian/ebook-list/add",
     formData,
     {
       headers: {

@@ -25,6 +25,8 @@ export default function ShowMonographDetails({ params }) {
     window.close();
   }
 
+  console.log(monographDetails);
+
   if (isLoading) {
     return <Loading />;
   }
@@ -62,9 +64,9 @@ export default function ShowMonographDetails({ params }) {
                 <div style={{ height: "100%", overflowY: "auto" }}>
                   <div class="mb-4">
                     <label class="block text-sm font-medium text-gray-700">
-                      Book ID:
+                      Accession Number:
                     </label>
-                    <p class="text-gray-900">{monographDetails.book_id}</p>
+                    <p class="text-gray-900">{monographDetails.accession_no}</p>
                   </div>
                   <div class="mb-4">
                     <label class="block text-sm font-medium text-gray-700">
