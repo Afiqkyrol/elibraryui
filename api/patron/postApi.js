@@ -65,6 +65,27 @@ export async function fetchSearchBookResultsV2(category, title) {
   return response.data;
 }
 
+export async function fetchSearchEbookResultsV2(category, title) {
+  const formData = new FormData();
+  formData.append("category", category);
+  formData.append("title", title);
+
+  const token = localStorage.getItem("auth-token");
+
+  const response = await axiosInstance.post(
+    "/patron/book-list/search-ebooks-v2",
+    formData,
+    {
+      headers: {
+        "Content-Type": "multipart/form-data",
+        Authorization: "Bearer " + token,
+      },
+    }
+  );
+
+  return response.data;
+}
+
 export async function fetchSearchEBookResults(category, title) {
   const formData = new FormData();
   formData.append("category", category);

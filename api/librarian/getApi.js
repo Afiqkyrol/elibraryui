@@ -426,3 +426,26 @@ export async function fetchLtMonoCat() {
   });
   return response.data;
 }
+
+export async function fetchDashboardReservationList() {
+  const token = localStorage.getItem("auth-token");
+  const response = await axiosInstance.get(
+    "/librarian/dashboard/reservation-list",
+    {
+      headers: {
+        Authorization: "Bearer " + token,
+      },
+    }
+  );
+  return response.data;
+}
+
+export async function fetchDashboardExtendApplicationList() {
+  const token = localStorage.getItem("auth-token");
+  const response = await axiosInstance.get("/librarian/dashboard/extend-list", {
+    headers: {
+      Authorization: "Bearer " + token,
+    },
+  });
+  return response.data;
+}

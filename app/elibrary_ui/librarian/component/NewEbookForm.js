@@ -384,9 +384,9 @@ const DynamicForm = ({ inputData, inputOptions, statusOptions }) => {
 
       router.push("/elibrary_ui/librarian/ebook");
     } catch (error) {
-      console.log(error);
       setIsLoading(false);
       toast.error("Error!");
+      console.log(error);
     }
   };
 

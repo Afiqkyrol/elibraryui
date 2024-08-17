@@ -6,7 +6,10 @@ import { fetchSearchBookResults } from "@/api/librarian/postApi";
 import PatronLeftSideBar from "../../component/PatronLeftSideBar";
 import { fetchEBookList } from "@/api/patron/getApi";
 import EbookSearchListTable from "../../patron/component/EbookSearchListTable";
-import { fetchSearchEBookResults } from "@/api/patron/postApi";
+import {
+  fetchSearchEBookResults,
+  fetchSearchEbookResultsV2,
+} from "@/api/patron/postApi";
 
 export default function ShowSearchList() {
   const [bookList, setBookList] = useState([]);

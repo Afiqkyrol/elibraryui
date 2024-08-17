@@ -5,7 +5,10 @@ import LibrarianLeftSideBar from "@/app/elibrary_ui/component/LibrarianLeftSideB
 import { useEffect, useState } from "react";
 import { fetchEBookList } from "@/api/librarian/getApi";
 import EbookSearchListTable from "../component/EbookSearchListTable";
-import { fetchSearchEBookResults } from "@/api/librarian/postApi";
+import {
+  fetchSearchEBookResults,
+  fetchSearchEbookResultsV2,
+} from "@/api/librarian/postApi";
 
 export default function ShowSearchList() {
   const [bookList, setBookList] = useState([]);

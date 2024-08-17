@@ -1,6 +1,5 @@
 import { barcodePath, imagePath } from "@/util/config";
 import Link from "next/link";
-import { useState } from "react";
 
 export default function CatalogDetailsListTable({
   data,
@@ -63,7 +62,9 @@ export default function CatalogDetailsListTable({
                   {book.cataloging_data}
                 </td>
                 <td className="px-6 py-4 whitespace-no-wrap">
-                  {data.catalog[index].catreg_data}
+                  {data.catalog && data.catalog[index]
+                    ? data.catalog[index].catreg_data
+                    : "No Data"}
                 </td>
               </tr>
             ))}

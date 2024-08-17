@@ -7,7 +7,10 @@ import { useEffect, useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import EbookListTable from "../component/EbookListTable";
-import { fetchSearchEBookResults } from "@/api/librarian/postApi";
+import {
+  fetchSearchEBookResults,
+  fetchSearchEbookResultsV2,
+} from "@/api/librarian/postApi";
 
 export default function EbookListPage() {
   const [ebookList, setEbookList] = useState([]);
@@ -82,6 +85,7 @@ export default function EbookListPage() {
     console.log(category);
     console.log(title);
     setEbookList(await fetchSearchEBookResults(category, title));
+    console.log(ebookList);
     setIsLoading(false);
   }
 

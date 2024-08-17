@@ -3,8 +3,10 @@
 import { useEffect, useState } from "react";
 import Loading from "../loading";
 import LibrarianLeftSideBar from "../component/LibrarianLeftSideBar";
-import { fetchReservationList } from "@/api/librarianAPI";
-import { fetchExtendApplicationList } from "@/api/librarian/getApi";
+import {
+  fetchDashboardReservationList,
+  fetchExtendApplicationList,
+} from "@/api/librarian/getApi";
 import Link from "next/link";
 
 export default function LibrarianDashboardPage() {
@@ -19,7 +21,7 @@ export default function LibrarianDashboardPage() {
     }
 
     async function getData() {
-      setReservationList(await fetchReservationList());
+      setReservationList(await fetchDashboardReservationList());
       setExtendApplicationList(await fetchExtendApplicationList());
     }
 
